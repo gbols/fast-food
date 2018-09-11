@@ -1,0 +1,177 @@
+html, body{
+    height: 100%;
+    font-family: 'Lora', serif;
+    font-size: small;
+    color: whitesmoke;
+    background: #191c1e;
+}
+
+.container {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+h1{
+  font-size: 2.2em;
+  font-family: 'Yatra One', cursive;
+}
+
+.navbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  place-items: center end;
+}
+
+menu ul{
+  margin-right: 10px;;
+}
+menu ul li{
+  list-style: none;
+  font-weight: bold;
+  font-size: 1.2em;
+  display: inline;
+  padding: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: whitesmoke;
+}
+a:hover {
+  color: #191c1e;
+  background: white;
+  padding: 10px;
+
+}
+ .moto {
+  background: url(./assets/details.png);
+  display: grid;
+  color: #272727;
+  grid-gap: 20px;
+  padding: 20px;
+  grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
+  border: thick dashed #191c1e;
+}
+
+.mantra {
+  display: grid;
+  grid-auto-rows: 2fr 1fr auto;
+  place-items: center center;
+}
+.mantra p {
+  text-align: center;
+  font-size: 1.2em;
+}
+.emoji {
+  font-size: 6.2em;
+}
+.food-items h2 {
+  font-size: 2.7em;
+  font-weight: 300;
+  text-align: center;
+}
+.all-foods {
+  display: grid;
+  grid-gap: 20px;
+  padding: 10px;
+  grid-template-columns: repeat(auto-fit,minmax(350px, 1fr));
+}
+
+.food {
+  display: grid;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-radius: 5px;
+  padding-bottom: 10px;
+}
+
+.food:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.food img {
+  border-radius: 5px 5px 0 0;
+  width: 100%;
+  height: auto;
+}
+
+.cover {
+  padding: 2px 16px;
+}
+.cover-content {
+  display: grid;
+}
+
+.name-price {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.action{
+  font-weight: bold;
+  text-align: center;
+}
+/* The navigation menu links */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 1.2em;
+    color: whitesmoke;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #191c1e;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+@media screen and (max-width: 700px) {
+  .lists {
+    display: none;
+  }
+}
+@media screen and (min-width: 700px) {
+  .drawer {
+    display: none;
+  }
+}
+
+footer {
+  text-align: center;
+  
+}
