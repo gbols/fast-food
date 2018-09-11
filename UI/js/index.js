@@ -9,3 +9,20 @@ function closeNav() {
   document.getElementById("main").style.marginLeft = "0";
   document.body.style.backgroundColor = "#191c1e";
 }
+
+// Get the modal
+var modal = document.getElementById("id01");
+var modale = document.getElementById("id02");
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal || modale) {
+    modal.style.display = "none";
+  }
+};
+
+window.onclick = function(event) {
+  if (event.target == modale) {
+    modal.style.display = "none";
+  }
+};
