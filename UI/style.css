@@ -24,7 +24,20 @@ h1{
   padding-right: 10px;
   place-items: center end;
 }
-
+.nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  grid-template-areas: 
+  "home home details";
+}
+.home{
+  grid-area: home;
+  padding-left: 20px;
+}
+.details{
+  grid-area: details;
+  justify-self: end;
+}
 menu ul{
   margin-right: 10px;;
 }
@@ -77,7 +90,7 @@ a:hover {
   display: grid;
   grid-gap: 20px;
   padding: 10px;
-  grid-template-columns: repeat(auto-fit,minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(300px, 1fr));
 }
 
 .food {
@@ -170,7 +183,40 @@ a:hover {
     display: none;
   }
 }
+@media screen and (max-width: 548px) {
+  .nav {
+    grid-template-areas:
+    "home home home"
+    "details details details";
+  }
+  .details{
+    padding: 0;
+    margin: 0px;
+    justify-self: start;
+  }
+  h1 {
+    font-size: 1.5em;
+    margin: 0;
+  }
+}
 
+ul li h1{
+  display: inline;
+  padding: 10px;
+}
+time{
+  font-weight: bold;
+}
+.period{
+  display: grid;
+  grid-template-columns: auto  auto;
+  place-items: center center;
+}
+.num{
+  font-weight: lighter;
+  font-size: 1.6em;
+  padding-left: 5px;
+}
 footer {
   text-align: center;
   
