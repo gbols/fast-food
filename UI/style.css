@@ -217,6 +217,49 @@ time{
   font-size: 1.6em;
   padding-left: 5px;
 }
+.admin{
+  display: grid;
+  /* grid-gap: 10px; */
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0px;
+  padding: 0px;
+}
+.bolt{
+  justify-self: center;
+}
+.settings{
+  justify-self: end;
+}
+.dropup {
+    position: relative;
+    display: inline-block;
+}
+
+.dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    bottom: 15px;
+    z-index: 1;
+}
+
+.dropup-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropup-content a:hover {background-color: #f4ca1f}
+
+.dropup:hover .dropup-content {
+    display: block;
+}
+
+.dropup:hover .dropbtn {
+    background-color: #2980B9;
+}
 footer {
   text-align: center;
   
