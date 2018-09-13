@@ -33,14 +33,18 @@ router.post('/orders', (req, res) => {
     quantity: Joi.number().required(),
     price: Joi.number().required(),
     desc: Joi.string().required(),
+    userid: Joi.number().required(),
   };
 
-  const { error, value } = Joi.validate(req.body, schema);
+  const { error } = Joi.validate(req.body, schema);
   if (!error) {
-    const { quantity, desc, price } = req.body;
+    const {
+      quantity, userid, desc, price,
+    } = req.body;
 
     const order = {
       id: db.length + 1,
+      userid,
       quantity,
       desc,
       createdAt: new Date(),
@@ -60,6 +64,21 @@ router.post('/orders', (req, res) => {
       message: error.message,
     });
   }
+});
+
+router.put('/orders/:id', (req, res) => {
+  const orderId = Number(req.params.id);
+  const theOrder = db.find(order => order.id === orderId);
+  if (!theOrder) {
+    return res.status(404).send({
+      success: false,
+      message: 'The given order cant be found in the database',
+    });
+  }
+  const newOrder = theOrder;
+  newOrder.status = !theOrder.status;
+  db.splice(db.indexOf(theOrder), 1, newOrder);
+  res.status(200).send({ success: true, message: 'order was successfully updated', newOrder });
 });
 
 export default router;
