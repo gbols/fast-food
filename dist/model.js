@@ -9,8 +9,7 @@ var db = [{
   quantity: 7,
   createdAt: new Date(),
   price: 750,
-  accepted: false,
-  declined: false,
+  status: false,
   completed: false
 }, {
   id: 2,
@@ -18,8 +17,7 @@ var db = [{
   quantity: 5,
   createdAt: new Date(),
   price: 500,
-  accepted: false,
-  declined: false,
+  status: false,
   completed: false
 }];
 

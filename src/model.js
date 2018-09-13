@@ -5,8 +5,7 @@ const db = [
     quantity: 7,
     createdAt: new Date(),
     price: 750,
-    accepted: false,
-    declined: false,
+    status: false,
     completed: false,
   }, {
     id: 2,
@@ -14,8 +13,7 @@ const db = [
     quantity: 5,
     createdAt: new Date(),
     price: 500,
-    accepted: false,
-    declined: false,
+    status: false,
     completed: false,
   },
 ];
