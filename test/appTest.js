@@ -27,6 +27,34 @@ describe('Orders',() => {
     });
   });
 
+  describe('/GET single order', () => {
+    it('it should get a single order', done => {
+      chai.request(app)
+      .get('/api/v1/users/orders/1')
+      .end((err,res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(true);
+        res.body.should.have.property('message').eql('order was successfully found');
+        res.body.should.have.property('order');
+        done();
+      });
+    });
+  });
+
+    describe('/GET single order with invalid id', () => {
+    it('it should return an error object', done => {
+      chai.request(app)
+      .get('/api/v1/users/orders/3')
+      .end((err,res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(false);
+        res.body.should.have.property('message').eql('The given order cant be found in the database');
+        done();
+      });
+    });
+  });
 
 });
 
