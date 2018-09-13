@@ -50,22 +50,24 @@ router.post('/orders', function (req, res) {
   var schema = {
     quantity: _joi2.default.number().required(),
     price: _joi2.default.number().required(),
-    desc: _joi2.default.string().required()
+    desc: _joi2.default.string().required(),
+    userid: _joi2.default.number().required()
   };
 
   var _Joi$validate = _joi2.default.validate(req.body, schema),
-      error = _Joi$validate.error,
-      value = _Joi$validate.value;
+      error = _Joi$validate.error;
 
   if (!error) {
     var _req$body = req.body,
         quantity = _req$body.quantity,
+        userid = _req$body.userid,
         desc = _req$body.desc,
         price = _req$body.price;
 
 
     var order = {
       id: _model2.default.length + 1,
+      userid: userid,
       quantity: quantity,
       desc: desc,
       createdAt: new Date(),
@@ -85,6 +87,23 @@ router.post('/orders', function (req, res) {
       message: error.message
     });
   }
+});
+
+router.put('/orders/:id', function (req, res) {
+  var orderId = Number(req.params.id);
+  var theOrder = _model2.default.find(function (order) {
+    return order.id === orderId;
+  });
+  if (!theOrder) {
+    return res.status(404).send({
+      success: false,
+      message: 'The given order cant be found in the database'
+    });
+  }
+  var newOrder = theOrder;
+  newOrder.status = !theOrder.status;
+  _model2.default.splice(_model2.default.indexOf(theOrder), 1, newOrder);
+  res.status(200).send({ success: true, message: 'order was successfully updated', newOrder: newOrder });
 });
 
 exports.default = router;

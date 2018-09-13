@@ -9,6 +9,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/v1', Router);
 
-app.listen(port, () => console.log('listening on port 3000'));
+app.listen(port, () => console.log(`listening on port ${port}`));
 
 export default app;

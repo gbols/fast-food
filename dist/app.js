@@ -23,7 +23,7 @@ app.use(_express2.default.urlencoded({ extended: false }));
 app.use('/api/v1', _router2.default);
 
 app.listen(port, function () {
-  return console.log('listening on port 3000');
+  return console.log('listening on port ' + port);
 });
 
 exports.default = app;

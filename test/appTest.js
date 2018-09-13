@@ -58,6 +58,7 @@ describe('Orders',() => {
    it('It should Post an order', done => {
   let order =  {
     desc: 'fried rice and chicken',
+    userid:7,
     quantity: 7,
     price: 750,
   }
@@ -75,23 +76,51 @@ describe('Orders',() => {
   })
 });
 
-describe('/Post',() => {
+describe('/Put and Post',() => {
  
 
-  // it('It shouldnt Post an order with missing fields', done => {
-  //    const order = {
-  //         quantity:7,
-  //         price:23
-  // };
-  //   chai.request(app)
-  //   .post('/api/v1/orders')
-  //   .send(order)
-  //   .end((err,res) => {
-  //       res.should.have.status(403);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('message');
-  //       res.body.should.have.property('success').eql(false); 
-  //        done();
-  //   });
-  // })
+  it('It shouldnt Post an order with missing fields', done => {
+     const order = {
+          quantity:7,
+          price:23
+  };
+    chai.request(app)
+    .post('/api/v1/orders')
+    .send(order)
+    .end((err,res) => {
+        res.should.have.status(403);
+        res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('success').eql(false); 
+         done();
+    });
+  })
+
+
+  describe('/PUT the status of an order', () => {
+    it('it should update the status of an order', done => {
+      chai.request(app)
+      .put('/api/v1/orders/1')
+      .end((err,res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(true);
+        res.body.should.have.property('message').eql('order was successfully updated');
+        res.body.should.have.property('newOrder');
+        done();
+      });
+    });
+
+      it('it should return an error object due to invalid id', done => {
+      chai.request(app)
+      .put('/api/v1/orders/90')
+      .end((err,res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(false);
+        res.body.should.have.property('message').eql('The given order cant be found in the database');
+        done();
+      });
+    })
+  });
 });
