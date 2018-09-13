@@ -6,8 +6,8 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 10000 test/appTest.js --compilers js:babel-register --exit || true",
     "coveralls": "nyc npm test && nyc report --reporter=lcov --reporter=text --reporter=lcovonly || coveralls",
-    "build": "babel src -d dist",
-    "start": "nodemon dist/app.js"
+    "start": "nodemon dist/app.js",
+    "build": "babel src -d dist"
   },
   "nyc": {
     "exclude": [
