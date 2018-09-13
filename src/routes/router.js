@@ -36,7 +36,7 @@ router.post('/orders', (req, res) => {
   };
 
   const { error, value } = Joi.validate(req.body, schema);
-  if (value) {
+  if (!error) {
     const { quantity, desc, price } = req.body;
 
     const order = {

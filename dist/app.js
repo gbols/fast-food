@@ -20,7 +20,7 @@ var port = process.env.PORT || 3000;
 app.use(_express2.default.json());
 app.use(_express2.default.urlencoded({ extended: false }));
 
-app.use('/api/v1/users', _router2.default);
+app.use('/api/v1', _router2.default);
 
 app.listen(port, function () {
   return console.log('listening on port 3000');

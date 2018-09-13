@@ -54,35 +54,37 @@ router.post('/orders', function (req, res) {
   };
 
   var _Joi$validate = _joi2.default.validate(req.body, schema),
-      error = _Joi$validate.error;
+      error = _Joi$validate.error,
+      value = _Joi$validate.value;
 
-  if (error) {
+  if (!error) {
+    var _req$body = req.body,
+        quantity = _req$body.quantity,
+        desc = _req$body.desc,
+        price = _req$body.price;
+
+
+    var order = {
+      id: _model2.default.length + 1,
+      quantity: quantity,
+      desc: desc,
+      createdAt: new Date(),
+      price: price,
+      status: false,
+      completed: false
+    };
+    _model2.default.unshift(order);
+    res.status(200).send({
+      success: true,
+      message: 'order was successfully posted',
+      order: order
+    });
+  } else {
     return res.status(403).send({
       success: false,
       message: error.message
     });
   }
-  var _req$body = req.body,
-      quantity = _req$body.quantity,
-      desc = _req$body.desc,
-      price = _req$body.price;
-
-
-  var order = {
-    id: _model2.default.length + 1,
-    quantity: quantity,
-    desc: desc,
-    createdAt: new Date(),
-    price: price,
-    status: false,
-    completed: false
-  };
-  _model2.default.unshift(order);
-  res.status(200).send({
-    success: true,
-    message: 'order was successfully posted',
-    order: order
-  });
 });
 
 exports.default = router;
