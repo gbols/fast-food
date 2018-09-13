@@ -8,6 +8,10 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
+var _joi = require('joi');
+
+var _joi2 = _interopRequireDefault(_joi);
+
 var _model = require('../model');
 
 var _model2 = _interopRequireDefault(_model);
@@ -39,6 +43,45 @@ router.get('/orders/:id', function (req, res) {
     success: true,
     message: 'order was successfully found',
     order: theOrder
+  });
+});
+
+router.post('/orders', function (req, res) {
+  var schema = {
+    quantity: _joi2.default.number().required(),
+    price: _joi2.default.number().required(),
+    desc: _joi2.default.string().required()
+  };
+
+  var _Joi$validate = _joi2.default.validate(req.body, schema),
+      error = _Joi$validate.error;
+
+  if (error) {
+    return res.status(403).send({
+      success: false,
+      message: error.message
+    });
+  }
+  var _req$body = req.body,
+      quantity = _req$body.quantity,
+      desc = _req$body.desc,
+      price = _req$body.price;
+
+
+  var order = {
+    id: _model2.default.length + 1,
+    quantity: quantity,
+    desc: desc,
+    createdAt: new Date(),
+    price: price,
+    status: false,
+    completed: false
+  };
+  _model2.default.unshift(order);
+  res.status(200).send({
+    success: true,
+    message: 'order was successfully posted',
+    order: order
   });
 });
 
