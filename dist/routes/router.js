@@ -23,4 +23,23 @@ router.get('', function (req, res) {
 router.get('/orders', function (req, res) {
   res.status(200).json(_model2.default);
 });
+
+router.get('/orders/:id', function (req, res) {
+  var orderId = Number(req.params.id);
+  var theOrder = _model2.default.find(function (order) {
+    return order.id === orderId;
+  });
+  if (!theOrder) {
+    return res.status(404).send({
+      success: false,
+      message: 'The given order cant be found in the database'
+    });
+  }
+  res.status(200).send({
+    success: true,
+    message: 'order was successfully found',
+    order: theOrder
+  });
+});
+
 exports.default = router;
