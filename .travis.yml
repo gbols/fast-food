@@ -1,6 +1,6 @@
 env:
   global:
-    - CC_TEST_REPORTER_ID=3b6c3d2c697db786e747fd1b9720d545969709710e756003a79868906c849191
+    - CC_TEST_REPORTER_ID=086f90030f2da9fc27d6288da56974b3ac7a44ad6b6009f73e30719640d9d8f5
     - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
 language: node_js
 node_js:
