@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/gbols/fast-food-fast#readme",
   "dependencies": {
+    "arrify": "^1.0.1",
     "express": "^4.16.3",
     "joi": "^13.6.0"
   },

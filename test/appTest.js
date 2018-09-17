@@ -8,12 +8,7 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('Orders',() => {
-  // beforeEach(done => {
-  //   db.remove({}, err => {
-  //     done();
-  //   });
-  // });
-
+ 
   describe('/GET order', () => {
     it('it should get all the orders', done => {
       chai.request(app)
@@ -50,6 +45,20 @@ describe('Orders',() => {
         res.body.should.be.a('object');
         res.body.should.have.property('success').eql(false);
         res.body.should.have.property('message').eql('The given order cant be found in the database');
+        done();
+      });
+    });
+  });
+
+    describe('/GET single order with invalid id non integer', () => {
+    it('it should return an error object', done => {
+      chai.request(app)
+      .get('/api/v1/orders/*')
+      .end((err,res) => {
+        res.should.have.status(403);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(false);
+        res.body.should.have.property('message').eql('id must be an integer');
         done();
       });
     });
@@ -122,5 +131,19 @@ describe('/Put and Post',() => {
         done();
       });
     })
+  });
+
+   describe('/PUT single order with invalid id non integer', () => {
+    it('it should return an error object', done => {
+      chai.request(app)
+      .put('/api/v1/orders/*')
+      .end((err,res) => {
+        res.should.have.status(403);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(false);
+        res.body.should.have.property('message').eql('id must be an integer');
+        done();
+      });
+    });
   });
 });
