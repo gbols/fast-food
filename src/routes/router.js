@@ -14,6 +14,13 @@ router.get('/orders', (req, res) => {
 
 router.get('/orders/:id', (req, res) => {
   const orderId = Number(req.params.id);
+  const result = isInteger(orderId);
+  if (!result){
+    return res.status(403).send({
+      success:false,
+      message: "id must be an interger"
+    })
+  }
   const theOrder = db.find(order => order.id === orderId);
   if (!theOrder) {
     return res.status(404).send({
@@ -68,6 +75,13 @@ router.post('/orders', (req, res) => {
 
 router.put('/orders/:id', (req, res) => {
   const orderId = Number(req.params.id);
+  const result = isInteger(orderId);
+   if (!result){
+    return res.status(403).send({
+      success:false,
+      message: "id must be an interger"
+    })
+  }
   const theOrder = db.find(order => order.id === orderId);
   if (!theOrder) {
     return res.status(404).send({
@@ -80,5 +94,9 @@ router.put('/orders/:id', (req, res) => {
   db.splice(db.indexOf(theOrder), 1, newOrder);
   res.status(200).send({ success: true, message: 'order was successfully updated', newOrder });
 });
+
+function isInteger(input){
+  return Number.isInteger(input);
+}
 
 export default router;

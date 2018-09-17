@@ -30,6 +30,13 @@ router.get('/orders', function (req, res) {
 
 router.get('/orders/:id', function (req, res) {
   var orderId = Number(req.params.id);
+  var result = isInteger(orderId);
+  if (!result) {
+    return res.status(403).send({
+      success: false,
+      message: "id must be an interger"
+    });
+  }
   var theOrder = _model2.default.find(function (order) {
     return order.id === orderId;
   });
@@ -91,6 +98,13 @@ router.post('/orders', function (req, res) {
 
 router.put('/orders/:id', function (req, res) {
   var orderId = Number(req.params.id);
+  var result = isInteger(orderId);
+  if (!result) {
+    return res.status(403).send({
+      success: false,
+      message: "id must be an interger"
+    });
+  }
   var theOrder = _model2.default.find(function (order) {
     return order.id === orderId;
   });
@@ -105,5 +119,9 @@ router.put('/orders/:id', function (req, res) {
   _model2.default.splice(_model2.default.indexOf(theOrder), 1, newOrder);
   res.status(200).send({ success: true, message: 'order was successfully updated', newOrder: newOrder });
 });
+
+function isInteger(input) {
+  return Number.isInteger(input);
+}
 
 exports.default = router;
