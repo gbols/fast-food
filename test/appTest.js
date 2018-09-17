@@ -8,12 +8,7 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('Orders',() => {
-  // beforeEach(done => {
-  //   db.remove({}, err => {
-  //     done();
-  //   });
-  // });
-
+ 
   describe('/GET order', () => {
     it('it should get all the orders', done => {
       chai.request(app)
