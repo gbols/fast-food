@@ -50,6 +50,20 @@ describe('Orders',() => {
     });
   });
 
+    describe('/GET single order with invalid id non integer', () => {
+    it('it should return an error object', done => {
+      chai.request(app)
+      .get('/api/v1/orders/*')
+      .end((err,res) => {
+        res.should.have.status(403);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(false);
+        res.body.should.have.property('message').eql('id must be an integer');
+        done();
+      });
+    });
+  });
+
    it('It should Post an order', done => {
   let order =  {
     desc: 'fried rice and chicken',
@@ -117,5 +131,19 @@ describe('/Put and Post',() => {
         done();
       });
     })
+  });
+
+   describe('/PUT single order with invalid id non integer', () => {
+    it('it should return an error object', done => {
+      chai.request(app)
+      .put('/api/v1/orders/*')
+      .end((err,res) => {
+        res.should.have.status(403);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(false);
+        res.body.should.have.property('message').eql('id must be an integer');
+        done();
+      });
+    });
   });
 });

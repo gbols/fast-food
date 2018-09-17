@@ -34,7 +34,7 @@ router.get('/orders/:id', function (req, res) {
   if (!result) {
     return res.status(403).send({
       success: false,
-      message: "id must be an interger"
+      message: 'id must be an integer'
     });
   }
   var theOrder = _model2.default.find(function (order) {
@@ -102,7 +102,7 @@ router.put('/orders/:id', function (req, res) {
   if (!result) {
     return res.status(403).send({
       success: false,
-      message: "id must be an interger"
+      message: 'id must be an integer'
     });
   }
   var theOrder = _model2.default.find(function (order) {
