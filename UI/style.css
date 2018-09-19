@@ -17,9 +17,11 @@ h1{
   font-family: 'Yatra One', cursive;
 }
 h3{
-  font-family: 'Yatra One', cursive;
+  font-family: 'Lora', serif;
+  font-weight: normal;
   display: inline;
-  font-size: 1.1em;
+  font-size: 1.3em;
+  margin-left: 10px;
 }
 
 .navbar {
@@ -53,7 +55,6 @@ menu ul li{
   display: inline;
   padding: 10px;
 }
-
 a {
   text-decoration: none;
   color:  #191c1e;
@@ -66,6 +67,9 @@ a:hover {
   background: #191c1e;
   padding: 10px;
 
+}
+.cart{
+  font-size: 2em;
 }
  .moto {
   background: url(./assets/details.png);
@@ -137,10 +141,13 @@ a:hover {
   display: grid;
   grid-template-columns: 1fr auto;
 }
-
 .action{
-  font-weight: bold;
+  font-weight: bolder;
   text-align: center;
+}
+.action:hover, .completed:hover{
+  background: #f4ca1f;
+  color: #191c1e;
 }
 /* The navigation menu links */
 .sidenav {
@@ -230,6 +237,7 @@ time{
   font-weight: lighter;
   font-size: 1.6em;
   padding-left: 5px;
+  color: #f44336;
 }
 .admin{
   display: grid;
