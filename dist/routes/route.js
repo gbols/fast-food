@@ -15,7 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = new _expressPromiseRouter2.default();
 
 router.post('/auth/signup', _user.signUp);
-router.post('/auth/login', _user.login);
+// router.post('/auth/login', login);
 router.get('/signout', _user.signOut);
 
 exports.default = router;
