@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.signOut = exports.verifyToken = exports.login = exports.signUp = undefined;
 
-var _pg = require('pg');
-
 var _bcrypt = require('bcrypt');
 
 var _bcrypt2 = _interopRequireDefault(_bcrypt);
@@ -23,25 +21,14 @@ var _joi = require('joi');
 
 var _joi2 = _interopRequireDefault(_joi);
 
-var _config = require('../config');
+var _pool = require('../config/pool');
 
-var _config2 = _interopRequireDefault(_config);
+var _pool2 = _interopRequireDefault(_pool);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var pool = void 0;
 _dotenv2.default.config();
 
-if (process.env.NODE_ENV === 'test') {
-  pool = new _pg.Pool(_config2.default.heroku);
-  console.log(_config2.default.heroku);
-} else {
-  process.env.NODE_ENV = 'development';
-  pool = new _pg.Pool(_config2.default.development);
-  console.log(_config2.default.development);
-}
-
-console.log(process.env.NODE_ENV);
 var signUp = async function signUp(req, res) {
   var schema = _joi2.default.object().keys({
     username: _joi2.default.string().alphanum().min(4).max(30).required(),
@@ -57,7 +44,7 @@ var signUp = async function signUp(req, res) {
   if (error) {
     return res.status(403).send({ success: false, message: error.message });
   }
-  var client = await pool.connect();
+  var client = await _pool2.default.connect();
   try {
     var _ref = await client.query('SELECT * FROM users WHERE username = $1', [req.body.username]),
         rows = _ref.rows;
@@ -91,7 +78,7 @@ var login = async function login(req, res) {
   if (error) {
     return res.status(403).send({ success: false, message: error.message });
   }
-  var client = await pool.connect();
+  var client = await _pool2.default.connect();
   try {
     var _ref2 = await client.query('SELECT * FROM users WHERE username = $1', [req.body.username]),
         rows = _ref2.rows;
@@ -116,7 +103,7 @@ var login = async function login(req, res) {
 
 var verifyToken = function verifyToken(req, res, next) {
   var bearerHeader = req.headers.authorization;
-  if (!bearerHeader) return res.status(403).send('Forbidden! ....');
+  if (!bearerHeader) return res.status(403).send({ success: false, message: 'Forbidden!,valid token needed to access route' });
   var bearer = bearerHeader.split(' ');
   var bearerToken = bearer[1];
   req.token = bearerToken;
