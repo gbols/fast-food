@@ -81,7 +81,92 @@ chai.use(chaiHttp);
     });
   });
 
+describe("/LOGIN", () => {
+    it("it should allow a user login with credentials", done => {
+      const log = {
+        username: "tunde",
+        password: "tunde@tunde"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/auth/login")
+        .send(log)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have
+            .property("message")
+            .eql("user successfully logged In!....");
+            res.body.should.have
+            .property("success")
+            .eql(true);
+          res.body.should.have.property("token");
+          res.body.should.have.property("details");
+          done();
+        });
+    });
 
+     it("it should'nt allow a user login with incorrect password", done => {
+      const log = {
+        username: "tunde",
+        password: "gbolhan"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/auth/login")
+        .send(log)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.have
+            .property("message")
+            .eql("the password dooesnt match the supplied username!...");
+            res.body.should.have
+            .property("success")
+            .eql(false);
+          done();
+        });
+    });
+
+     it("it should'nt allow a user that doesnt exits to login", done => {
+      const log = {
+        username: "dayork",
+        password: "gbolhan"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/auth/login")
+        .send(log)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.have
+            .property("message")
+            .eql("user with credentails doesnt exits in the database!....");
+            res.body.should.have
+            .property("success")
+            .eql(false);
+          done();
+        });
+    });
+
+     it("it should'nt allow improper input fileds", done => {
+      const log = {
+        username: "",
+        password: "gbolhan"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/auth/login")
+        .send(log)
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.should.have
+            .property("message");
+            res.body.should.have
+            .property("success")
+            .eql(false);
+          done();
+        });
+    });
+  });
 describe("/SIGNOUT", () => {
     it("it should allow a user to signout of the app", done => {
       chai
