@@ -4,7 +4,7 @@
   "description": "A platform where users can order for food.",
   "main": "app.js",
   "scripts": {
-    "test": "export NODE_ENV=test && npm run tableMigrations && nyc --reporter=html --reporter=text mocha --timeout 10000 test/appTest.js --compilers js:babel-register --exit || true",
+    "test": "export NODE_ENV=test && npm run tableMigrations && nyc --reporter=html --reporter=text mocha --timeout 30000 test/appTest.js --compilers js:babel-register --exit || true",
     "tableMigrations": "node dist/model/userTable.js",
     "coveralls": "nyc npm test && nyc report --reporter=lcov --reporter=text --reporter=lcovonly || coveralls",
     "start": "node dist/app.js",
