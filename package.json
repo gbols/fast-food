@@ -7,7 +7,8 @@
     "test": "export NODE_ENV=test && npm run tableMigrations && nyc --reporter=html --reporter=text mocha --timeout 30000 test/appTest.js --compilers js:babel-register --exit || true",
     "tableMigrations": "babel src -d dist && node dist/model/table.js",
     "coveralls": "nyc npm test && nyc report --reporter=lcov --reporter=text --reporter=lcovonly || coveralls",
-    "start": "babel src -d dist && node dist/app.js"
+    "start": "babel src -d dist && node dist/app.js",
+    "build": "babel src -d dist"
   },
   "nyc": {
     "exclude": [
