@@ -2,6 +2,7 @@ import { Pool } from 'pg';
 import dotenv from 'dotenv';
 import dbConfig from './config';
 
+
 let pool;
 dotenv.config();
 if (process.env.NODE_ENV === 'test') {
@@ -14,5 +15,5 @@ if (process.env.NODE_ENV === 'test') {
 }
 console.log(process.env.NODE_ENV);
 
-const poolConnect = pool;
-export default poolConnect;
+const poolConect = pool;
+export default poolConect;
