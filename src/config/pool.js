@@ -15,5 +15,5 @@ if (process.env.NODE_ENV === 'test') {
 }
 console.log(process.env.NODE_ENV);
 
-const poolConect = pool;
-export default poolConect;
+const poolConnect = pool;
+export default poolConnect;
