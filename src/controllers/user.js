@@ -1,23 +1,11 @@
-import { Pool } from 'pg';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import Jwt from 'jsonwebtoken';
 import Joi from 'joi';
-import dbConfig from '../config';
+import pool from '../config/pool';
 
-let pool;
 dotenv.config();
 
-if (process.env.NODE_ENV === 'test') {
-  pool = new Pool(dbConfig.heroku);
-  console.log(dbConfig.heroku);
-} else {
-  process.env.NODE_ENV = 'development';
-  pool = new Pool(dbConfig.development);
-  console.log(dbConfig.development);
-}
-
-console.log(process.env.NODE_ENV);
 const signUp = async (req, res) => {
   const schema = Joi.object().keys({
     username: Joi.string().alphanum().min(4).max(30)
@@ -83,7 +71,7 @@ const login = async (req, res) => {
 
 const verifyToken = (req, res, next) => {
   const bearerHeader = req.headers.authorization;
-  if (!bearerHeader) return res.status(403).send('Forbidden! ....');
+  if (!bearerHeader) return res.status(403).send({ success: false, message: 'Forbidden!,valid token needed to access route' });
   const bearer = bearerHeader.split(' ');
   const bearerToken = bearer[1];
   req.token = bearerToken;
