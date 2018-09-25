@@ -50,7 +50,36 @@ const createOrderTable = async () => {
 
     const insertOrder = await client.query('INSERT INTO orders (userid,quantity,description,price,orderat,status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [1, 5, 'Beans and Yam', 800, Date.now(), 'New']);
     const result = insertOrder.rows[0] ? 'order was succesfully inserted' : insertOrder.error;
-    console.log(insertOrder.rows[0], result);
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    client.end();
+  }
+};
+
+const createMenuTable = async () => {
+  const client = await pool.connect();
+  try {
+    const table = await client.query('DROP TABLE IF EXISTS menus CASCADE');
+
+    const resultDrop = table.error ? table : 'menus table dropped successfully';
+    console.log(resultDrop);
+
+    const createdTable = await client.query(`CREATE TABLE menus (
+      menuid SERIAL PRIMARY KEY,
+      description varchar(255),
+      price bigint,
+      imageurl varchar(255),
+      menutitle varchar(255)
+    )`);
+
+    const resultCreate = createdTable.error ? createdTable : 'menus table created successfully';
+    console.log(resultCreate);
+
+    const insertMenu = await client.query('INSERT INTO menus (description,price,imageurl,menutitle) VALUES ($1, $2, $3, $4) RETURNING *', ['Iyan is made from pounding yam repeatedly with a club like cooking', 850, 'https://stackoverflow.com/questions/33023469/node-postgres-and-getting-joined-fields-with-repeated-names', 'Beans and Yam']);
+    const result = insertMenu.rows[0] ? 'menu was succesfully inserted' : insertMenu.error;
+    console.log(result);
   } catch (error) {
     console.log(error);
   } finally {
@@ -60,3 +89,4 @@ const createOrderTable = async () => {
 
 createUserTable();
 createOrderTable();
+createMenuTable();
