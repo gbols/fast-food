@@ -30,4 +30,31 @@ const postOrder = async (req, res) => {
   }
 };
 
-export default postOrder;
+const getAnOrder = async (req, res) => {
+  const userId = Number(req.params.id);
+  const result = Number.isInteger(userId);
+  if (!result) {
+    return res.status(400).send({ success: false, message: 'orderId must be an integer' });
+  }
+  let decoded;
+  try {
+    decoded = Jwt.verify(req.token, process.env.JWT_SECRET);
+  } catch (err) {
+    res.status(400).send({ success: false, message: err.message });
+  }
+  if (userId !== decoded.user.userid) {
+    return res.status(409).send({ success: false, message: 'userid from params doesn\'t match token id' });
+  }
+  try {
+    const client = await pool.connect();
+    const { rows } = await client.query('SELECT * FROM orders WHERE userid = $1', [userId]);
+    if (rows.length === 0) {
+      return res.status(404).send({ success: false, message: 'you havent place any order on the platform' });
+    }
+    res.status(200).send({ success: true, message: 'orders was successfully returned! ....', orders: rows });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { postOrder, getAnOrder };

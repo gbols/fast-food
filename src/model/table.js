@@ -47,6 +47,10 @@ const createOrderTable = async () => {
 
     const resultCreate = createdTable.error ? createdTable : 'orders table created successfully';
     console.log(resultCreate);
+
+    const insertOrder = await client.query('INSERT INTO orders (userid,quantity,description,price,orderat,status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [1, 5, 'Beans and Yam', 800, Date.now(), 'New']);
+    const result = insertOrder.rows[0] ? 'order was succesfully inserted' : insertOrder.error;
+    console.log(insertOrder.rows[0], result);
   } catch (error) {
     console.log(error);
   } finally {
