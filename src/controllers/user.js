@@ -82,7 +82,31 @@ const signOut = (req, res) => {
   res.status(200).send({ success: true, message: 'you have successfully signed out' });
 };
 
+const getAllMenu = async (req, res) => {
+  let client;
+  try {
+    client = await pool.connect();
+    const { rows } = await client.query('SELECT * FROM menus');
+    if (rows.length === 0) {
+      return res.status(200).send({ success: false, message: 'there are no menu items yet' });
+    }
+    res.status(200).send({ success: true, message: 'menu items successfully returned!...', menus: rows });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    client.release();
+  }
+};
+
+const notFound = (req, res) => {
+  res.status(404).send({ success: false, message: 'the requested route can\'t be found' });
+};
+
+const catchAll = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ success: false, message: 'Something broke when processing request!' });
+};
 export {
-  signUp, login,
+  signUp, login, getAllMenu, notFound, catchAll,
   verifyToken, signOut,
 };

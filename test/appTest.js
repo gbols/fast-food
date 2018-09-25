@@ -335,3 +335,23 @@ describe('/GET ORDER', () => {
       });
   });
 });
+
+describe('/GET MENU', () => {
+  it('it should allow a user without token access this route', (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/menu')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message')
+          .eql('menu items successfully returned!...');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have
+          .property('menus');
+        done();
+      });
+  });
+});
