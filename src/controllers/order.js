@@ -33,7 +33,7 @@ const postOrder = async (req, res) => {
   }
 };
 
-const getAnOrder = async (req, res) => {
+const getOrderHistory = async (req, res) => {
   const userId = Number(req.params.id);
   const result = Number.isInteger(userId);
   if (!result) {
@@ -63,4 +63,4 @@ const getAnOrder = async (req, res) => {
   }
 };
 
-export { postOrder, getAnOrder };
+export { postOrder, getOrderHistory };

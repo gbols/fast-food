@@ -94,4 +94,27 @@ const postMenu = async (req, res) => {
   }
 };
 
-export { postMenu, adminSignUp, adminLogin };
+const getAllOrders = async (req, res) => {
+  try {
+    Jwt.verify(req.token, process.env.JWT_SECRET_ADMIN);
+  } catch (err) {
+    return res.status(401).send({ success: false, message: err.message });
+  }
+  let client;
+  try {
+    client = await pool.connect();
+    const { rows } = await client.query('SELECT * FROM orders');
+    if (rows.length === 0) {
+      return res.status(200).send({ success: false, message: 'there are no orders yet' });
+    }
+    res.status(200).send({ success: true, message: 'orders successfully returned!...', orders: rows });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    client.release();
+  }
+};
+
+export {
+  postMenu, adminSignUp, adminLogin, getAllOrders,
+};
