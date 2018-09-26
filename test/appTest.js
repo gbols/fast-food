@@ -610,3 +610,270 @@ describe('/GET ALL ORDERS ', () => {
       });
   });
 });
+
+describe('/GET A SPECIFIC ORDER', () => {
+  it("it should'nt allow a user without token access this route", (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/orders/1')
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.should.have
+          .property('message')
+          .eql('Forbidden!,valid token needed to access route');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it("it should'nt allow a invalid input fields", (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/orders/*')
+      .set('Authorization', `Bearer ${Jwt.sign({ userid: 2 }, process.env.JWT_SECRET)}`)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have
+          .property('message')
+          .eql('The order ID must be an integer!...');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it('it should return a response when order doesnt exists', (done) => {
+    const user = {
+      userid: 3,
+    };
+    chai
+      .request(app)
+      .get('/api/v1/orders/3')
+      .set('Authorization', `Bearer ${Jwt.sign({ user }, process.env.JWT_SECRET)}`)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have
+          .property('message').eql('the given order does\'t exits');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it('it should return user order history given valid credentials', (done) => {
+    const user = {
+      userid: 1,
+    };
+    chai
+      .request(app)
+      .get('/api/v1/orders/1')
+      .set('Authorization', `Bearer ${Jwt.sign({ user }, process.env.JWT_SECRET)}`)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message').eql('orders successfully returned!...');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have
+          .property('order');
+        done();
+      });
+  });
+});
+
+describe('/POST ORDER', () => {
+  it("it should'nt allow a user without token access this route", (done) => {
+    const order = {
+      description: 'Egg and Bread',
+      price: 800,
+      quantity: 5,
+    };
+    chai
+      .request(app)
+      .post('/api/v1/order')
+      .send(order)
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.should.have
+          .property('message')
+          .eql('Forbidden!,valid token needed to access route');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it("it should'nt allow a invalid input fields", (done) => {
+    const order = {
+      description: '',
+      price: 800,
+      quantity: 5,
+    };
+    chai
+      .request(app)
+      .post('/api/v1/order')
+      .set('Authorization', `Bearer ${Jwt.sign({ userid: 2 }, process.env.JWT_SECRET)}`)
+      .send(order)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have
+          .property('message');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it('it should create a post with valid credentials', (done) => {
+    const user = {
+      userid: 2,
+    };
+    const order = {
+      description: 'Yam and Egg',
+      price: 800,
+      quantity: 5,
+    };
+    chai
+      .request(app)
+      .post('/api/v1/order')
+      .set('Authorization', `Bearer ${Jwt.sign({ user }, process.env.JWT_SECRET)}`)
+      .send(order)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message').eql('order was succesfully created');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have
+          .property('order');
+        done();
+      });
+  });
+});
+
+describe('/GET ORDER HISTORY', () => {
+  it("it should'nt allow a user without token access this route", (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/users/3/orders')
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.should.have
+          .property('message')
+          .eql('Forbidden!,valid token needed to access route');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it("it should'nt allow a invalid input fields", (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/users/*/orders')
+      .set('Authorization', `Bearer ${Jwt.sign({ userid: 2 }, process.env.JWT_SECRET)}`)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have
+          .property('message')
+          .eql('orderId must be an integer');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it('it should return user order history given valid credentials', (done) => {
+    const user = {
+      userid: 3,
+    };
+    chai
+      .request(app)
+      .get('/api/v1/users/3/orders')
+      .set('Authorization', `Bearer ${Jwt.sign({ user }, process.env.JWT_SECRET)}`)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have
+          .property('message').eql('you havent place any order on the platform');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it('it should return user order history given valid credentials', (done) => {
+    const user = {
+      userid: 1,
+    };
+    chai
+      .request(app)
+      .get('/api/v1/users/1/orders')
+      .set('Authorization', `Bearer ${Jwt.sign({ user }, process.env.JWT_SECRET)}`)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message').eql('orders was successfully returned! ....');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have
+          .property('orders');
+        done();
+      });
+  });
+});
+
+describe('/GET MENU', () => {
+  it('it should allow a user without token access this route', (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/menu')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message')
+          .eql('menu items successfully returned!...');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have
+          .property('menus');
+        done();
+      });
+  });
+});
+
+describe('/GET ALL ORDERS ', () => {
+  it('it should allow a user without token access this route', (done) => {
+    const admin = {
+      userid: 1,
+    };
+    chai
+      .request(app)
+      .get('/api/v1/orders')
+      .set('Authorization', `Bearer ${Jwt.sign({ admin }, process.env.JWT_SECRET_ADMIN)}`)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message')
+          .eql('orders successfully returned!...');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have
+          .property('orders');
+        done();
+      });
+  });
+});
