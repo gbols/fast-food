@@ -877,3 +877,93 @@ describe('/GET ALL ORDERS ', () => {
       });
   });
 });
+
+describe('/PUT ORDER STATUS', () => {
+  it("it should'nt allow a user without token access this route", (done) => {
+    const stat = {
+      status: 'new',
+    };
+    chai
+      .request(app)
+      .put('/api/v1/orders/1')
+      .send(stat)
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.should.have
+          .property('message')
+          .eql('Forbidden!,valid token needed to access route');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it("it should'nt allow a invalid input fields", (done) => {
+    const stat = {
+      status: 'lonocious',
+    };
+    chai
+      .request(app)
+      .put('/api/v1/orders/1')
+      .set('Authorization', `Bearer ${Jwt.sign({ adminid: 2 }, process.env.JWT_SECRET_ADMIN)}`)
+      .send(stat)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have
+          .property('message');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it('it should update status given valid credentials', (done) => {
+    const admin = {
+      adminid: 1,
+    };
+    const stat = {
+      status: 'processing',
+    };
+    chai
+      .request(app)
+      .put('/api/v1/orders/1')
+      .set('Authorization', `Bearer ${Jwt.sign({ admin }, process.env.JWT_SECRET_ADMIN)}`)
+      .send(stat)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message').eql('order status was successfully updated');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have
+          .property('order');
+        done();
+      });
+  });
+
+  it('it shouldn\'t update status when order ID isn\'t in the database', (done) => {
+    const admin = {
+      adminid: 1,
+    };
+    const stat = {
+      status: 'processing',
+    };
+    chai
+      .request(app)
+      .put('/api/v1/orders/5')
+      .set('Authorization', `Bearer ${Jwt.sign({ admin }, process.env.JWT_SECRET_ADMIN)}`)
+      .send(stat)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have
+          .property('message').eql('The given order doesn\'t exist in the database');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+});

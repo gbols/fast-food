@@ -4,7 +4,7 @@ import {
 } from '../controllers/user';
 import { getOrderHistory, postOrder } from '../controllers/order';
 import {
-  adminLogin, postMenu, adminSignUp, getAnOrder, getAllOrders,
+  adminLogin, postMenu, adminSignUp, getAnOrder, getAllOrders, updateOrderStatus,
 } from '../controllers/admin';
 
 const router = new Router();
@@ -18,6 +18,7 @@ router.post('/auth/adminlogin', adminLogin);
 router.post('/auth/adminsignup', adminSignUp);
 router.post('/menu', verifyToken, postMenu);
 router.get('/orders', verifyToken, getAllOrders);
+router.put('/orders/:id', verifyToken, updateOrderStatus);
 
 router.get('/signout', signOut);
 router.get('/users/:id/orders', verifyToken, getOrderHistory);

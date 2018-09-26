@@ -141,6 +141,37 @@ const getAllOrders = async (req, res) => {
   }
 };
 
+const updateOrderStatus = async (req, res) => {
+  const orderId = Number(req.params.id);
+  const result = Number.isInteger(orderId);
+  if (!result) {
+    return res.status(400).send({ success: false, message: 'The order ID must be an integer!...' });
+  }
+  const schema = {
+    status: Joi.any().valid(['new', 'processing', 'completed', 'cancelled']).required(),
+  };
+  const { error } = Joi.validate(req.body, schema);
+  if (error) return res.status(400).send({ success: false, message: error.message });
+  try {
+    Jwt.verify(req.token, process.env.JWT_SECRET_ADMIN);
+  } catch (err) {
+    return res.status(401).send({ success: false, message: err.message });
+  }
+  let client;
+  try {
+    client = await pool.connect();
+    const { rows } = await client.query('UPDATE orders SET status = $1 WHERE orderid = $2 RETURNING *', [req.body.status, orderId]);
+    if (!rows[0]) {
+      return res.status(404).send({ success: false, message: 'The given order doesn\'t exist in the database' });
+    }
+    res.status(200).send({ success: true, message: 'order status was successfully updated', order: rows[0] });
+  } catch (poolErr) {
+    console.log(poolErr);
+  } finally {
+    client.release();
+  }
+};
+
 export {
-  postMenu, adminSignUp, adminLogin, getAnOrder, getAllOrders,
+  postMenu, adminSignUp, adminLogin, getAnOrder, getAllOrders, updateOrderStatus,
 };
