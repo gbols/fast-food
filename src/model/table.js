@@ -71,15 +71,40 @@ const createMenuTable = async () => {
       description varchar(255),
       price bigint,
       imageurl varchar(255),
-      menutitle varchar(255)
+      menutitle varchar(255),
+      adminid bigint
     )`);
 
     const resultCreate = createdTable.error ? createdTable : 'menus table created successfully';
     console.log(resultCreate);
 
-    const insertMenu = await client.query('INSERT INTO menus (description,price,imageurl,menutitle) VALUES ($1, $2, $3, $4) RETURNING *', ['Iyan is made from pounding yam repeatedly with a club like cooking', 850, 'https://stackoverflow.com/questions/33023469/node-postgres-and-getting-joined-fields-with-repeated-names', 'Beans and Yam']);
+    const insertMenu = await client.query('INSERT INTO menus (description,price,imageurl,menutitle,adminid) VALUES ($1, $2, $3, $4, $5) RETURNING *', ['Iyan is made from pounding yam repeatedly with a club like cooking', 850, 'https://stackoverflow.com/questions/33023469/node-postgres-and-getting-joined-fields-with-repeated-names', 'Beans and Yam', 1]);
     const result = insertMenu.rows[0] ? 'menu was succesfully inserted' : insertMenu.error;
     console.log(result);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    client.end();
+  }
+};
+
+const createAdminTable = async () => {
+  const client = await pool.connect();
+  try {
+    const table = await client.query('DROP TABLE IF EXISTS admins CASCADE');
+
+    const resultDrop = table.error ? table : 'admins table dropped successfully';
+    console.log(resultDrop);
+
+    const createdTable = await client.query(`CREATE TABLE admins (
+      adminid SERIAL PRIMARY KEY,
+      username varchar(255),
+      email varchar(255),
+      password varchar(255)
+    )`);
+
+    const resultCreate = createdTable.error ? createdTable : 'admins table created successfully';
+    console.log(resultCreate);
   } catch (error) {
     console.log(error);
   } finally {
@@ -90,3 +115,4 @@ const createMenuTable = async () => {
 createUserTable();
 createOrderTable();
 createMenuTable();
+createAdminTable();
