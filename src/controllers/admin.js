@@ -94,4 +94,53 @@ const postMenu = async (req, res) => {
   }
 };
 
-export { postMenu, adminSignUp, adminLogin };
+const getAnOrder = async (req, res) => {
+  const orderId = Number(req.params.id);
+  const result = Number.isInteger(orderId);
+  if (!result) {
+    return res.status(400).send({ success: false, message: 'The order ID must be an integer!...' });
+  }
+  try {
+    Jwt.verify(req.token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res.status(401).send({ success: false, message: err.message });
+  }
+  let client;
+  try {
+    client = await pool.connect();
+    const { rows } = await client.query('SELECT * FROM orders WHERE orderid = $1', [orderId]);
+    if (rows.length === 0) {
+      return res.status(404).send({ success: false, message: 'the given order does\'t exits' });
+    }
+    res.status(200).send({ success: true, message: 'orders successfully returned!...', order: rows[0] });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    client.release();
+  }
+};
+
+const getAllOrders = async (req, res) => {
+  try {
+    Jwt.verify(req.token, process.env.JWT_SECRET_ADMIN);
+  } catch (err) {
+    return res.status(401).send({ success: false, message: err.message });
+  }
+  let client;
+  try {
+    client = await pool.connect();
+    const { rows } = await client.query('SELECT * FROM orders');
+    if (rows.length === 0) {
+      return res.status(200).send({ success: false, message: 'there are no orders yet' });
+    }
+    res.status(200).send({ success: true, message: 'orders successfully returned!...', orders: rows });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    client.release();
+  }
+};
+
+export {
+  postMenu, adminSignUp, adminLogin, getAnOrder, getAllOrders,
+};
