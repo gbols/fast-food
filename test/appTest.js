@@ -73,7 +73,7 @@ describe('/SIGNUP', () => {
       .post('/api/v1/auth/signup')
       .send(signup)
       .end((err, res) => {
-        res.should.have.status(403);
+        res.should.have.status(400);
         res.body.should.have
           .property('message');
         res.body.should.have
@@ -160,7 +160,7 @@ describe('/LOGIN', () => {
       .post('/api/v1/auth/login')
       .send(log)
       .end((err, res) => {
-        res.should.have.status(403);
+        res.should.have.status(400);
         res.body.should.have
           .property('message');
         res.body.should.have
@@ -351,6 +351,237 @@ describe('/GET MENU', () => {
           .eql(true);
         res.body.should.have
           .property('menus');
+        done();
+      });
+  });
+});
+
+describe('/ADMIN SIGNUP', () => {
+  it('it should allow an admin signup with  valid credentials', (done) => {
+    const signup = {
+      username: 'tunde',
+      password: 'tunde@tunde',
+      email: 'tunde@tunde.com',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/auth/adminsignup')
+      .send(signup)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message')
+          .eql('admin account successfully created!....');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have.property('token');
+        res.body.should.have.property('details');
+        done();
+      });
+  });
+
+  it("it should'nt allow a admin signup with the same credentials twice", (done) => {
+    const signup = {
+      username: 'tunde',
+      password: 'tunde@tunde',
+      email: 'tunde@tunde.com',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/auth/adminsignup')
+      .send(signup)
+      .end((err, res) => {
+        res.should.have.status(409);
+        res.body.should.have
+          .property('message')
+          .eql('admin with credentials already exits');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+
+  it("it should'nt allow improper input fileds", (done) => {
+    const signup = {
+      username: 'tunde',
+      password: '',
+      email: 'tunde@tunde.com',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/auth/adminsignup')
+      .send(signup)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have
+          .property('message');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+});
+
+describe('/ADMIN LOGIN', () => {
+  it('it should allow a user login with credentials', (done) => {
+    const log = {
+      username: 'tunde',
+      password: 'tunde@tunde',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/auth/adminlogin')
+      .send(log)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message')
+          .eql('admin successfully logged In!....');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have.property('token');
+        res.body.should.have.property('details');
+        done();
+      });
+  });
+
+  it("it should'nt allow an admin login with incorrect password", (done) => {
+    const log = {
+      username: 'tunde',
+      password: 'gbolhan',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/auth/adminlogin')
+      .send(log)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have
+          .property('message')
+          .eql('the password dooesnt match the supplied username!...');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it("it should'nt allow an admin that doesnt exits to login", (done) => {
+    const log = {
+      username: 'dayork',
+      password: 'gbolhan',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/auth/adminlogin')
+      .send(log)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have
+          .property('message')
+          .eql('admin with credentails doesnt exits in the database!....');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it("it should'nt allow improper input fileds", (done) => {
+    const log = {
+      username: '',
+      password: 'gbolhan',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/auth/adminlogin')
+      .send(log)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have
+          .property('message');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+});
+
+describe('/POST MENU', () => {
+  it("it should'nt allow a user without token access this route", (done) => {
+    const menu = {
+      description: 'The Big Bad Broad and Burdened Bear is here!',
+      price: 800,
+      menutitle: 'Beans and Yam',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/menu')
+      .send(menu)
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.should.have
+          .property('message')
+          .eql('Forbidden!,valid token needed to access route');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it("it should'nt allow a invalid input fields", (done) => {
+    const order = {
+      description: '',
+      price: 800,
+      quantity: 5,
+    };
+    chai
+      .request(app)
+      .post('/api/v1/order')
+      .set('Authorization', `Bearer ${Jwt.sign({ userid: 2 }, process.env.JWT_SECRET_ADMIN)}`)
+      .send(order)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have
+          .property('message');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it('it should create a post with valid credentials', (done) => {
+    const admin = {
+      adminid: 1,
+    };
+    const menu = {
+      menutitle: 'Yam and Egg',
+      price: 800,
+      description: 'The Big Bad Broad and Burdened Bear is here!',
+      imageurl: 'https://www.w3schools.com/sql/sql_join_inner.asp',
+    };
+    chai
+      .request(app)
+      .post('/api/v1/menu')
+      .set('Authorization', `Bearer ${Jwt.sign({ admin }, process.env.JWT_SECRET_ADMIN)}`)
+      .send(menu)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have
+          .property('message').eql('menu was succesfully created');
+        res.body.should.have
+          .property('success')
+          .eql(true);
+        res.body.should.have
+          .property('menu');
         done();
       });
   });

@@ -17,7 +17,7 @@ const signUp = async (req, res) => {
   });
   const { error } = Joi.validate(req.body, schema);
   if (error) {
-    return res.status(403).send({ success: false, message: error.message });
+    return res.status(400).send({ success: false, message: error.message });
   }
   const client = await pool.connect();
   try {
@@ -46,7 +46,7 @@ const login = async (req, res) => {
   };
   const { error } = Joi.validate(req.body, schema);
   if (error) {
-    return res.status(403).send({ success: false, message: error.message });
+    return res.status(400).send({ success: false, message: error.message });
   }
   const client = await pool.connect();
   try {
@@ -98,15 +98,15 @@ const getAllMenu = async (req, res) => {
   }
 };
 
-const notFound = (req, res) => {
+const catchAllRoutes = (req, res) => {
   res.status(404).send({ success: false, message: 'the requested route can\'t be found' });
 };
 
-const catchAll = (err, req, res, next) => {
+const errorHanlder = (err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({ success: false, message: 'Something broke when processing request!' });
 };
 export {
-  signUp, login, getAllMenu, notFound, catchAll,
+  signUp, login, getAllMenu, catchAllRoutes, errorHanlder,
   verifyToken, signOut,
 };
