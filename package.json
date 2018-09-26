@@ -7,7 +7,7 @@
     "test": "export NODE_ENV=test && npm run tableMigrations && nyc --reporter=html --reporter=text mocha --timeout 30000 test/appTest.js --compilers js:babel-register --exit || true",
     "tableMigrations": "babel src -d dist && node dist/model/table.js",
     "coveralls": "nyc npm test && nyc report --reporter=lcov --reporter=text --reporter=lcovonly || coveralls",
-    "start": "babel src -d dist && node dist/app.js",
+    "start": "node dist/app.js",
     "build": "babel src -d dist"
   },
   "nyc": {
@@ -22,6 +22,9 @@
     "lcov",
     "text"
   ],
+  "engine": {
+    "node": "0.12.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gbols/fast-food-fast.git"
@@ -38,7 +41,7 @@
   "homepage": "https://github.com/gbols/fast-food-fast#readme",
   "dependencies": {
     "arrify": "^1.0.1",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^3.0.1",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-promise-router": "^3.0.3",
