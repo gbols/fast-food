@@ -40,7 +40,7 @@ const signUp = async (req, res) => {
     };
     const token = Jwt.sign({ user }, process.env.JWT_SECRET);
     res.status(200).send({
-      success: true, message: 'user account successfully created!....', details: result.rows[0], token,
+      success: true, message: 'user account successfully created!....', token,
     });
   } catch (err) {
     throw err.stack;
@@ -67,11 +67,11 @@ const login = async (req, res) => {
   try {
     const { rows } = await client.query('SELECT * FROM users WHERE username = $1', [req.body.username]);
     if (!rows[0]) {
-      return res.status(404).send({ success: false, message: 'user with credentails doesnt exits in the database!....' });
+      return res.status(404).send({ success: false, message: 'Invalid username or password' });
     }
     const correctPassword = bcrypt.compareSync(req.body.password, rows[0].password);
     if (!correctPassword) {
-      return res.status(401).send({ success: false, message: 'the password dooesnt match the supplied username!...' });
+      return res.status(401).send({ success: false, message: 'Invalid username or password' });
     }
     const user = {
       username: rows[0].username,
@@ -81,10 +81,10 @@ const login = async (req, res) => {
     };
     const token = Jwt.sign({ user }, process.env.JWT_SECRET);
     res.status(200).send({
-      success: true, message: 'user successfully logged In!....', details: rows[0], token,
+      success: true, message: 'user successfully logged In!....', token,
     });
   } catch (err) {
-    console.log(err.stack);
+    throw err;
   } finally {
     client.release();
   }

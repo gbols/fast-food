@@ -36,7 +36,7 @@ const adminSignUp = async (req, res) => {
     };
     const token = Jwt.sign({ admin }, process.env.JWT_SECRET_ADMIN);
     res.status(200).send({
-      success: true, message: 'admin account successfully created!....', details: result.rows[0], token,
+      success: true, message: 'admin account successfully created!....', token,
     });
   } catch (err) {
     throw err.stack;
@@ -78,7 +78,7 @@ const adminLogin = async (req, res) => {
 
     const token = Jwt.sign({ admin }, process.env.JWT_SECRET_ADMIN);
     res.status(200).send({
-      success: true, message: 'admin successfully logged In!....', details: rows[0], token,
+      success: true, message: 'admin successfully logged In!....', token,
     });
   } catch (err) {
     throw err.stack;
@@ -87,11 +87,10 @@ const adminLogin = async (req, res) => {
   }
 };
 
-
 /**
- * @param  {} req
- * @param  {} res
- * @returns {}
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
 const postMenu = async (req, res) => {
   const schema = {
@@ -122,9 +121,9 @@ const postMenu = async (req, res) => {
 
 
 /**
- * @param  {} req
- * @param  {} res
- * @returns {}
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
 const getAnOrder = async (req, res) => {
   const orderId = Number(req.params.id);

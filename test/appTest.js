@@ -30,7 +30,6 @@ describe('/SIGNUP', () => {
           .property('success')
           .eql(true);
         res.body.should.have.property('token');
-        res.body.should.have.property('details');
         done();
       });
   });
@@ -103,7 +102,6 @@ describe('/LOGIN', () => {
           .property('success')
           .eql(true);
         res.body.should.have.property('token');
-        res.body.should.have.property('details');
         done();
       });
   });
@@ -121,7 +119,7 @@ describe('/LOGIN', () => {
         res.should.have.status(401);
         res.body.should.have
           .property('message')
-          .eql('the password dooesnt match the supplied username!...');
+          .eql('Invalid username or password');
         res.body.should.have
           .property('success')
           .eql(false);
@@ -142,7 +140,7 @@ describe('/LOGIN', () => {
         res.should.have.status(404);
         res.body.should.have
           .property('message')
-          .eql('user with credentails doesnt exits in the database!....');
+          .eql('Invalid username or password');
         res.body.should.have
           .property('success')
           .eql(false);
@@ -208,7 +206,6 @@ describe('/ADMIN SIGNUP', () => {
           .property('success')
           .eql(true);
         res.body.should.have.property('token');
-        res.body.should.have.property('details');
         done();
       });
   });
@@ -277,7 +274,6 @@ describe('/ADMIN LOGIN', () => {
           .property('success')
           .eql(true);
         res.body.should.have.property('token');
-        res.body.should.have.property('details');
         done();
       });
   });
