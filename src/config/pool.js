@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'test') {
   pool = new Pool(dbConfig.heroku);
 } else {
   process.env.NODE_ENV = 'production';
-  pool = new Pool(dbConfig.localDevelopment);
+  pool = new Pool(dbConfig.production);
 }
 
 const poolConnect = pool;
