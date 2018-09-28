@@ -9,9 +9,8 @@ import {
 
 const router = new Router();
 
-
 router.post('/auth/signup', signUp);
-router.post('/order', verifyToken, postOrder);
+router.post('/orders', verifyToken, postOrder);
 router.post('/auth/login', login);
 
 router.post('/auth/adminlogin', adminLogin);

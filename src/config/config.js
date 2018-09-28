@@ -3,7 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const dbConfiguration = {
-  development: {
+  production: {
+    connectionString: process.env.PROD_DATABASE_URL,
+  },
+
+  localDevelopment: {
     user: process.env.MAN,
     host: process.env.HOST,
     database: process.env.DATABASE_DEVELOPMENT,

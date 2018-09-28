@@ -5,7 +5,11 @@ import Joi from 'joi';
 import pool from '../config/pool';
 
 dotenv.config();
-
+/**
+ * @param  {} req
+ * @param  {} res
+ * @returns {}
+ */
 const signUp = async (req, res) => {
   const schema = Joi.object().keys({
     username: Joi.string().alphanum().min(4).max(30)
@@ -28,17 +32,28 @@ const signUp = async (req, res) => {
 
     const hash = bcrypt.hashSync(req.body.password, 1);
     const result = await client.query('INSERT INTO users  (username,email,address,password,phone) VALUES ($1, $2, $3, $4, $5) RETURNING *', [req.body.username, req.body.email, req.body.address, hash, req.body.phone]);
-    const token = Jwt.sign({ user: result.rows[0] }, process.env.JWT_SECRET);
+    const user = {
+      username: result.rows[0].username,
+      email: result.rows[0].email,
+      address: result.rows[0].address,
+      phone: result.rows[0].phone,
+    };
+    const token = Jwt.sign({ user }, process.env.JWT_SECRET);
     res.status(200).send({
       success: true, message: 'user account successfully created!....', details: result.rows[0], token,
     });
   } catch (err) {
-    console.log(err.stack);
+    throw err.stack;
   } finally {
     client.release();
   }
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @returns {}
+ */
 const login = async (req, res) => {
   const schema = {
     username: Joi.string().required(),
@@ -58,7 +73,13 @@ const login = async (req, res) => {
     if (!correctPassword) {
       return res.status(401).send({ success: false, message: 'the password dooesnt match the supplied username!...' });
     }
-    const token = Jwt.sign({ user: rows[0] }, process.env.JWT_SECRET);
+    const user = {
+      username: rows[0].username,
+      email: rows[0].email,
+      address: rows[0].address,
+      phone: rows[0].phone,
+    };
+    const token = Jwt.sign({ user }, process.env.JWT_SECRET);
     res.status(200).send({
       success: true, message: 'user successfully logged In!....', details: rows[0], token,
     });
@@ -68,7 +89,12 @@ const login = async (req, res) => {
     client.release();
   }
 };
-
+/**
+ * @param  {} req
+ * @param  {} res
+ * @param  {} next
+ * @returns {}
+ */
 const verifyToken = (req, res, next) => {
   const bearerHeader = req.headers.authorization;
   if (!bearerHeader) return res.status(403).send({ success: false, message: 'Forbidden!,valid token needed to access route' });
@@ -78,10 +104,22 @@ const verifyToken = (req, res, next) => {
   next();
 };
 
+
+/**
+ * @param  {} req
+ * @param  {} res
+ * @returns {}
+ */
 const signOut = (req, res) => {
   res.status(200).send({ success: true, message: 'you have successfully signed out' });
 };
 
+
+/**
+ * @param  {} req
+ * @param  {} res
+ * @returns {}
+ */
 const getAllMenu = async (req, res) => {
   let client;
   try {
@@ -92,19 +130,29 @@ const getAllMenu = async (req, res) => {
     }
     res.status(200).send({ success: true, message: 'menu items successfully returned!...', menus: rows });
   } catch (err) {
-    console.log(err);
+    throw err;
   } finally {
     client.release();
   }
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @returns {}
+ */
 const catchAllRoutes = (req, res) => {
   res.status(404).send({ success: false, message: 'the requested route can\'t be found' });
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @returns {}
+ */
 const errorHanlder = (err, req, res, next) => {
-  console.error(err.stack);
   res.status(500).send({ success: false, message: 'Something broke when processing request!' });
+  throw err.stack;
 };
 export {
   signUp, login, getAllMenu, catchAllRoutes, errorHanlder,

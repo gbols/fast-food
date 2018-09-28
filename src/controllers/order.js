@@ -6,7 +6,11 @@ import pool from '../config/pool';
 
 dotenv.config();
 
-
+/**
+ * @param  {} req
+ * @param  {} res
+ * @returns {}
+ */
 const postOrder = async (req, res) => {
   const schema = {
     quantity: Joi.number().required(),
@@ -27,12 +31,17 @@ const postOrder = async (req, res) => {
     const { rows } = await client.query('INSERT INTO orders (userid,quantity,description,price,orderat,status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [decoded.user.userid, req.body.quantity, req.body.description, req.body.price, Date.now(), 'new']);
     res.status(200).send({ success: true, message: 'order was succesfully created', order: rows[0] });
   } catch (poolErr) {
-    console.log(poolErr);
+    throw poolErr;
   } finally {
     client.release();
   }
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @returns {}
+ */
 const getOrderHistory = async (req, res) => {
   const userId = Number(req.params.id);
   const result = Number.isInteger(userId);
@@ -57,7 +66,7 @@ const getOrderHistory = async (req, res) => {
     }
     res.status(200).send({ success: true, message: 'orders was successfully returned! ....', orders: rows });
   } catch (error) {
-    console.log(error);
+    throw error;
   } finally {
     client.release();
   }

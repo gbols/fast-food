@@ -1,9 +1,9 @@
 /node_modules
 /coverage
-/dist
 /.nyc_output
 *.txt
 *.log
 .vscode
 .env
 helper.md
+/dist
