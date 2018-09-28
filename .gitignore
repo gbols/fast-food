@@ -6,3 +6,4 @@
 .vscode
 .env
 helper.md
+/dist
