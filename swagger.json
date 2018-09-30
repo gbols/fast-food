@@ -1,0 +1,885 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "A platfrom to enjoy intercontinental dishes of different kind",
+    "version" : "0.1",
+    "title" : "Fast Food Fast"
+  },
+  "paths" : {
+    "/api/v1/orders" : {
+      "get" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model15"
+            }
+          }
+        },
+        "security" : [ {
+          "Secured" : [ ]
+        } ]
+      },
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Model3"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"description\":\"Beans and Egg\",\n    \"quantity\":8,\n    \"price\":650\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model9"
+            }
+          }
+        },
+        "security" : [ {
+          "Secured" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/users/:id/orders" : {
+      "get" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model10"
+            }
+          }
+        },
+        "security" : [ {
+          "Secured" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/menu" : {
+      "get" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model11"
+            }
+          }
+        },
+        "security" : [ {
+          "Secured" : [ ]
+        } ]
+      },
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Model5"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"description\":\"Intercontinetal delicacy at your finger tips\",\n    \"menutitle\":\"Egg and Bread\",\n    \"price\":900,\n    \"imageurl\":\"https://inspector.swagger.io/builder\"\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model14"
+            }
+          }
+        },
+        "security" : [ {
+          "Secured" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/orders/:id" : {
+      "get" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model16"
+            }
+          }
+        },
+        "security" : [ {
+          "Secured" : [ ]
+        } ]
+      },
+      "put" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Model4"
+          },
+          "x-examples" : {
+            "application/json" : "{\n   \"status\":\"processing\"\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model17"
+            }
+          }
+        },
+        "security" : [ {
+          "Secured" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/auth/adminlogin" : {
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Model2"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"username\":\"zainabu\",\n    \"password\":\"dayo@dayo\",\n    \"email\":\"dayo@dayo.com\",\n    \"phone\":\"08162561265\",\n    \"address\":\"4 Napier Gardern estate\"\n}"
+          }
+        }, {
+          "name" : "param0",
+          "in" : "path",
+          "description" : "Example values form path are: 'signup' and 'login'",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model7"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/adminsignup" : {
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Model6"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"username\":\"zainabu\",\n    \"password\":\"dayo@dayo\",\n    \"email\":\"dayo@dayo.com\"\n}"
+          }
+        }, {
+          "name" : "param1",
+          "in" : "path",
+          "description" : "Example values form path are: 'adminsignup' and 'adminlogin'",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Definition generated from Swagger Inspector",
+            "schema" : {
+              "$ref" : "#/definitions/Model12"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Secured" : {
+      "type" : "oauth2",
+      "authorizationUrl" : "https://example.com",
+      "flow" : "implicit",
+      "scopes" : { }
+    }
+  },
+  "definitions" : {
+    "Model2" : {
+      "properties" : {
+        "username" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "address" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "password" : "password",
+        "address" : "address",
+        "phone" : "phone",
+        "email" : "email",
+        "username" : "username"
+      }
+    },
+    "Model3" : {
+      "properties" : {
+        "description" : {
+          "type" : "string"
+        },
+        "quantity" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "price" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "example" : {
+        "quantity" : 0,
+        "price" : 6,
+        "description" : "description"
+      }
+    },
+    "Model4" : {
+      "properties" : {
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "status" : "status"
+      }
+    },
+    "Model5" : {
+      "properties" : {
+        "description" : {
+          "type" : "string"
+        },
+        "menutitle" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "imageurl" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "price" : 0,
+        "imageurl" : "imageurl",
+        "description" : "description",
+        "menutitle" : "menutitle"
+      }
+    },
+    "Model6" : {
+      "properties" : {
+        "username" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "password" : "password",
+        "email" : "email",
+        "username" : "username"
+      }
+    },
+    "Details" : {
+      "properties" : {
+        "userid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "address" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "password" : "password",
+        "address" : "address",
+        "phone" : "phone",
+        "userid" : 0,
+        "email" : "email",
+        "username" : "username"
+      }
+    },
+    "Model7" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "details" : {
+          "$ref" : "#/definitions/Details"
+        },
+        "token" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "success" : true,
+        "details" : {
+          "password" : "password",
+          "address" : "address",
+          "phone" : "phone",
+          "userid" : 0,
+          "email" : "email",
+          "username" : "username"
+        },
+        "message" : "message",
+        "token" : "token"
+      }
+    },
+    "Order" : {
+      "properties" : {
+        "orderid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "userid" : {
+          "type" : "string"
+        },
+        "quantity" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "orderat" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "quantity" : "quantity",
+        "orderid" : 0,
+        "price" : "price",
+        "description" : "description",
+        "userid" : "userid",
+        "orderat" : "orderat",
+        "status" : "status"
+      }
+    },
+    "Model9" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "order" : {
+          "$ref" : "#/definitions/Order"
+        }
+      },
+      "example" : {
+        "success" : true,
+        "message" : "message",
+        "order" : {
+          "quantity" : "quantity",
+          "orderid" : 0,
+          "price" : "price",
+          "description" : "description",
+          "userid" : "userid",
+          "orderat" : "orderat",
+          "status" : "status"
+        }
+      }
+    },
+    "Orders" : {
+      "properties" : {
+        "orderid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "userid" : {
+          "type" : "string"
+        },
+        "quantity" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "orderat" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "quantity" : "quantity",
+        "orderid" : 0,
+        "price" : "price",
+        "description" : "description",
+        "userid" : "userid",
+        "orderat" : "orderat",
+        "status" : "status"
+      }
+    },
+    "Model10" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "orders" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Orders"
+          }
+        }
+      },
+      "example" : {
+        "success" : true,
+        "orders" : [ {
+          "quantity" : "quantity",
+          "orderid" : 0,
+          "price" : "price",
+          "description" : "description",
+          "userid" : "userid",
+          "orderat" : "orderat",
+          "status" : "status"
+        }, {
+          "quantity" : "quantity",
+          "orderid" : 0,
+          "price" : "price",
+          "description" : "description",
+          "userid" : "userid",
+          "orderat" : "orderat",
+          "status" : "status"
+        } ],
+        "message" : "message"
+      }
+    },
+    "Menus" : {
+      "properties" : {
+        "menuid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "imageurl" : {
+          "type" : "string"
+        },
+        "menutitle" : {
+          "type" : "string"
+        },
+        "adminid" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "price" : "price",
+        "imageurl" : "imageurl",
+        "adminid" : "adminid",
+        "menuid" : 0,
+        "description" : "description",
+        "menutitle" : "menutitle"
+      }
+    },
+    "Model11" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "menus" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Menus"
+          }
+        }
+      },
+      "example" : {
+        "success" : true,
+        "menus" : [ {
+          "price" : "price",
+          "imageurl" : "imageurl",
+          "adminid" : "adminid",
+          "menuid" : 0,
+          "description" : "description",
+          "menutitle" : "menutitle"
+        }, {
+          "price" : "price",
+          "imageurl" : "imageurl",
+          "adminid" : "adminid",
+          "menuid" : 0,
+          "description" : "description",
+          "menutitle" : "menutitle"
+        } ],
+        "message" : "message"
+      }
+    },
+    "Model12_Details" : {
+      "properties" : {
+        "adminid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "password" : "password",
+        "adminid" : 0,
+        "email" : "email",
+        "username" : "username"
+      }
+    },
+    "Model12" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "details" : {
+          "$ref" : "#/definitions/Model12_Details"
+        },
+        "token" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "success" : true,
+        "details" : {
+          "password" : "password",
+          "adminid" : 0,
+          "email" : "email",
+          "username" : "username"
+        },
+        "message" : "message",
+        "token" : "token"
+      }
+    },
+    "Menu" : {
+      "properties" : {
+        "menuid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "imageurl" : {
+          "type" : "string"
+        },
+        "menutitle" : {
+          "type" : "string"
+        },
+        "adminid" : {
+          "type" : "object",
+          "properties" : { }
+        }
+      },
+      "example" : {
+        "price" : "price",
+        "imageurl" : "imageurl",
+        "adminid" : "{}",
+        "menuid" : 0,
+        "description" : "description",
+        "menutitle" : "menutitle"
+      }
+    },
+    "Model14" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "menu" : {
+          "$ref" : "#/definitions/Menu"
+        }
+      },
+      "example" : {
+        "success" : true,
+        "message" : "message",
+        "menu" : {
+          "price" : "price",
+          "imageurl" : "imageurl",
+          "adminid" : "{}",
+          "menuid" : 0,
+          "description" : "description",
+          "menutitle" : "menutitle"
+        }
+      }
+    },
+    "Model15_Orders" : {
+      "properties" : {
+        "orderid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "userid" : {
+          "type" : "string"
+        },
+        "quantity" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "orderat" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "quantity" : "quantity",
+        "orderid" : 0,
+        "price" : "price",
+        "description" : "description",
+        "userid" : "userid",
+        "orderat" : "orderat",
+        "status" : "status"
+      }
+    },
+    "Model15" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "orders" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Model15_Orders"
+          }
+        }
+      },
+      "example" : {
+        "success" : true,
+        "orders" : [ {
+          "quantity" : "quantity",
+          "orderid" : 0,
+          "price" : "price",
+          "description" : "description",
+          "userid" : "userid",
+          "orderat" : "orderat",
+          "status" : "status"
+        }, {
+          "quantity" : "quantity",
+          "orderid" : 0,
+          "price" : "price",
+          "description" : "description",
+          "userid" : "userid",
+          "orderat" : "orderat",
+          "status" : "status"
+        } ],
+        "message" : "message"
+      }
+    },
+    "Model16_Order" : {
+      "properties" : {
+        "orderid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "userid" : {
+          "type" : "string"
+        },
+        "quantity" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "orderat" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "quantity" : "quantity",
+        "orderid" : 0,
+        "price" : "price",
+        "description" : "description",
+        "userid" : "userid",
+        "orderat" : "orderat",
+        "status" : "status"
+      }
+    },
+    "Model16" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "order" : {
+          "$ref" : "#/definitions/Model16_Order"
+        }
+      },
+      "example" : {
+        "success" : true,
+        "message" : "message",
+        "order" : {
+          "quantity" : "quantity",
+          "orderid" : 0,
+          "price" : "price",
+          "description" : "description",
+          "userid" : "userid",
+          "orderat" : "orderat",
+          "status" : "status"
+        }
+      }
+    },
+    "Model17_Order" : {
+      "properties" : {
+        "orderid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "userid" : {
+          "type" : "string"
+        },
+        "quantity" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "string"
+        },
+        "orderat" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "quantity" : "quantity",
+        "orderid" : 0,
+        "price" : "price",
+        "description" : "description",
+        "userid" : "userid",
+        "orderat" : "orderat",
+        "status" : "status"
+      }
+    },
+    "Model17" : {
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "order" : {
+          "$ref" : "#/definitions/Model17_Order"
+        }
+      },
+      "example" : {
+        "success" : true,
+        "message" : "message",
+        "order" : {
+          "quantity" : "quantity",
+          "orderid" : 0,
+          "price" : "price",
+          "description" : "description",
+          "userid" : "userid",
+          "orderat" : "orderat",
+          "status" : "status"
+        }
+      }
+    }
+  }
+}

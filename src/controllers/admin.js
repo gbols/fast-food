@@ -87,11 +87,10 @@ const adminLogin = async (req, res) => {
   }
 };
 
-
 /**
- * @param  {} req
- * @param  {} res
- * @returns {}
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
 const postMenu = async (req, res) => {
   const schema = {
@@ -122,9 +121,9 @@ const postMenu = async (req, res) => {
 
 
 /**
- * @param  {} req
- * @param  {} res
- * @returns {}
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
 const getAnOrder = async (req, res) => {
   const orderId = Number(req.params.id);
