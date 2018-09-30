@@ -2,8 +2,8 @@ html, body{
     height: 100%;
     font-family: 'Lora', serif;
     font-size: small;
-    color: whitesmoke;
-    background: #191c1e;
+    color:  #191c1e;
+    background: whitesmoke;
 }
 
 .contain {
@@ -15,6 +15,13 @@ html, body{
 h1{
   font-size: 2.2em;
   font-family: 'Yatra One', cursive;
+}
+h3{
+  font-family: 'Lora', serif;
+  font-weight: normal;
+  display: inline;
+  font-size: 1.3em;
+  margin-left: 10px;
 }
 
 .navbar {
@@ -48,16 +55,21 @@ menu ul li{
   display: inline;
   padding: 10px;
 }
-
 a {
   text-decoration: none;
-  color: whitesmoke;
+  color:  #191c1e;
 }
 a:hover {
-  color: #191c1e;
-  background: #f4ca1f;
+  color: whitesmoke;
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 15px; 
+  font-size: 1.1em;
+  background: #191c1e;
   padding: 10px;
 
+}
+.cart{
+  font-size: 2em;
 }
  .moto {
   background: url(./assets/details.png);
@@ -66,7 +78,7 @@ a:hover {
   grid-gap: 20px;
   padding: 20px;
   grid-template-columns: repeat(auto-fit,minmax(220px, 1fr));
-  border: thick dashed #191c1e;
+  border: thick dashed whitesmoke;
 }
 
 .mantra {
@@ -111,7 +123,13 @@ a:hover {
   width: 100%;
   height: auto;
 }
-
+.quantity{
+  font-weight: bolder;
+  font-size: 1.1em;
+}
+.quantity-section{
+  margin-bottom: 8px;
+}
 .cover {
   padding: 2px 16px;
 }
@@ -123,10 +141,13 @@ a:hover {
   display: grid;
   grid-template-columns: 1fr auto;
 }
-
 .action{
-  font-weight: bold;
+  font-weight: bolder;
   text-align: center;
+}
+.action:hover, .completed:hover{
+  background: #f4ca1f;
+  color: #191c1e;
 }
 /* The navigation menu links */
 .sidenav {
@@ -136,7 +157,7 @@ a:hover {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #464e53;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -152,7 +173,7 @@ a:hover {
 }
 
 .sidenav a:hover {
-    color: #191c1e;
+    color: whitesmoke;
 }
 
 .sidenav .closebtn {
@@ -216,6 +237,7 @@ time{
   font-weight: lighter;
   font-size: 1.6em;
   padding-left: 5px;
+  color: #f44336;
 }
 .admin{
   display: grid;
@@ -289,10 +311,12 @@ button {
     color: #191c1e;
     padding: 14px 20px;
     margin: 8px 0;
+    font-size: 1.3em;
+    font-weight: bold;
     border: none;
     cursor: pointer;
     width: 100%;
-    opacity: 0.6;
+    opacity: 0.8;
 }
 
 button:hover {
@@ -326,18 +350,18 @@ button:hover {
     height: 100%;
      /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: #191c1e;
+    background-color: #464e53;
     padding-top: 20px;
 }
 
 /* Modal Content/Box */
 .modal-content {
-    /* background-color: #fefefe; */
+    background-color: #fefefe;
      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     box-sizing: border-box;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 50%; /* Could be more or less, depending on screen size */
 }
 
 /* Style the horizontal ruler */
@@ -353,7 +377,7 @@ hr {
     top: 15px;
     font-size: 40px;
     font-weight: bold;
-    color: #f1f1f1;
+    color: whitesmoke;
 }
 
 .close:hover,

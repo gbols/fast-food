@@ -7,7 +7,7 @@ function openNav() {
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
-  document.body.style.backgroundColor = "#191c1e";
+  document.body.style.backgroundColor = "whitesmoke";
 }
 
 // Get the modal

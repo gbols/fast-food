@@ -18,11 +18,37 @@
         </h1>
         <menu class="details">
           <ul>
-            <li> Welcome <h1>Admin</h1>
-            </li>
+            <li><a href="#">Hi admin</a>  </li>
+            <li><a onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Add a Meal</a></li>
           </ul>
         </menu>
       </nav>
+      <div id="id01" class="modal">
+        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <form class="modal-content" action="#">
+          <div class="container">
+            <h1>Add a Meal</h1>
+            <p>Please fill in this to add a new Meal.</p>
+            <hr>
+            <label for="email"><b>NAME OF MEAL</b></label>
+            <input type="text" placeholder="Enter Name of Meal" name="meal" required>
+
+            <label for="email"><b>IMAGE URL</b></label>
+            <input type="text" placeholder="Enter Image Link" name="imgLink" required>
+
+            <label for="email"><b>DESSCRIPTION</b></label>
+            <input type="text" placeholder="Enter Description" name="desc" required>
+      
+            <label for="psw"><b>PRICE</b></label>
+            <input type="password" placeholder="Enter Price" name="price" required>
+      
+            <div class="clearfix">
+              <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+              <button type="submit" class="signupbtn">Add</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </header>
     <main>
       <div class="food-items">
@@ -38,7 +64,7 @@
                     <a href="#">Decline</a>
                   </div>
                 </h4>
-                <h4 class="bolt"><a href="#">completed</a></h4>
+                <h4 class="bolt"><a class='completed'href="#">COMPLETED</a></h4>
                 <h4 class="settings">gbols</h4>
               </span>
               <div class="name-price">
@@ -66,7 +92,7 @@
                     <a href="#">Decline</a>
                   </div>
                 </h4>
-                <h4 class="bolt"><a href="#">completed</a></h4>
+                <h4 class="bolt"><a class='completed' href="#">COMPLETED</a></h4>
                 <h4 class="settings">gbols</h4>
               </span>
               <div class="name-price">
@@ -94,12 +120,12 @@
                     <a href="#">Decline</a>
                   </div>
                 </h4>
-                <h4 class="bolt"><a href="#">completed</a></h4>
+                <h4 class="bolt"><a class='completed' href="#">COMPLETED</a></h4>
                 <h4 class="settings">gbols</h4>
               </span>
               <div class="name-price">
                 <h4>Fried Rice and Chicken</h4>
-                <h4>#750</h4>
+                <h4 class="price">#750</h4>
               </div>
               <p>Click on the element below to open the side navigation menu, and push this content to the right.
                 Notice that
@@ -122,7 +148,7 @@
                     <a href="#">Decline</a>
                   </div>
                 </h4>
-                <h4 class="bolt"><a href="#">completed</a></h4>
+                <h4 class="bolt"><a class='completed' href="#">COMPLETED</a></h4>
                 <h4 class="settings">gbols</h4>
               </span>
               <div class="name-price">
@@ -147,6 +173,7 @@
       <span>@ Gbols 2018</span>
       <span>All Rights Reserved.</span>
     </footer>
+    <script src="/UI/js/index.js"></script>
   </section>
 </body>
 
