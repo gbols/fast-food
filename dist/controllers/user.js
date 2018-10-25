@@ -39,7 +39,8 @@ var signUp = async function signUp(req, res) {
     email: _joi2.default.string().email({ minDomainAtoms: 1 }).required(),
     address: _joi2.default.string().required(),
     password: _joi2.default.string().required(),
-    phone: _joi2.default.string().required()
+    phone: _joi2.default.string().required(),
+    role: _joi2.default.any().valid(['user', 'admin'])
   });
 
   var _Joi$validate = _joi2.default.validate(req.body, schema),
@@ -56,18 +57,24 @@ var signUp = async function signUp(req, res) {
     if (rows[0]) {
       return res.status(409).send({ success: false, message: 'user with credentials already exits' });
     }
-
+    var assignRole = function assignRole(theRole) {
+      if (theRole) return theRole;
+      return 'user';
+    };
+    req.body.role = assignRole(req.body.role);
     var hash = _bcrypt2.default.hashSync(req.body.password, 1);
-    var result = await client.query('INSERT INTO users  (username,email,address,password,phone) VALUES ($1, $2, $3, $4, $5) RETURNING *', [req.body.username, req.body.email, req.body.address, hash, req.body.phone]);
+    var result = await client.query('INSERT INTO users  (username,email,address,password,phone,role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [req.body.username, req.body.email, req.body.address, hash, req.body.phone, req.body.role]);
     var user = {
       username: result.rows[0].username,
       email: result.rows[0].email,
       address: result.rows[0].address,
-      phone: result.rows[0].phone
+      phone: result.rows[0].phone,
+      role: result.rows[0].role,
+      userid: result.rows[0].userid
     };
-    var token = _jsonwebtoken2.default.sign({ user: user }, process.env.JWT_SECRET);
+    var token = _jsonwebtoken2.default.sign({ user: user }, user.role === 'user' ? process.env.JWT_SECRET : process.env.JWT_SECRET_ADMIN);
     res.status(200).send({
-      success: true, message: 'user account successfully created!....', token: token
+      success: true, message: user.role + ' account successfully created!....', token: token
     });
   } catch (err) {
     throw err.stack;
@@ -109,11 +116,13 @@ var login = async function login(req, res) {
       username: rows[0].username,
       email: rows[0].email,
       address: rows[0].address,
-      phone: rows[0].phone
+      phone: rows[0].phone,
+      role: rows[0].role,
+      userid: rows[0].userid
     };
-    var token = _jsonwebtoken2.default.sign({ user: user }, process.env.JWT_SECRET);
+    var token = _jsonwebtoken2.default.sign({ user: user }, user.role === 'user' ? process.env.JWT_SECRET : process.env.JWT_SECRET_ADMIN);
     res.status(200).send({
-      success: true, message: 'user successfully logged In!....', token: token
+      success: true, message: user.role + ' successfully logged In!....', token: token
     });
   } catch (err) {
     throw err;

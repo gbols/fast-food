@@ -21,7 +21,7 @@ _dotenv2.default.config();
 if (process.env.NODE_ENV === 'test') {
   pool = new _pg.Pool(_config2.default.heroku);
 } else {
-  process.env.NODE_ENV = 'production';
+  process.env.NODE_ENV = 'localdevelopment';
   pool = new _pg.Pool(_config2.default.production);
 }
 

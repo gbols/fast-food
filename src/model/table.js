@@ -12,7 +12,8 @@ const createUserTable = async () => {
       email varchar(255),
       address varchar(255),
       phone varchar(255),
-      password varchar(255)
+      password varchar(255),
+      role varchar(255)
     )`);
   } catch (error) {
     throw error;
@@ -28,15 +29,13 @@ const createOrderTable = async () => {
 
     await client.query(`CREATE TABLE orders (
       orderid SERIAL PRIMARY KEY,
-      userid bigint,
-      quantity bigint,
-      description varchar(255),
-      price bigint,
+      status varchar(255),
       orderat varchar(255),
-      status varchar(255)
+      userid bigint,
+      info json
     )`);
 
-    await client.query('INSERT INTO orders (userid,quantity,description,price,orderat,status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [1, 5, 'Beans and Yam', 800, Date.now(), 'New']);
+    await client.query('INSERT INTO orders (info, status, orderat, userid) VALUES ($1, $2, $3, $4) RETURNING *', ['{ "customer": "John Doe", "items": {"product": "Beer","qty": 6}}', 'new', Date.now(), 1]);
   } catch (error) {
     throw error;
   } finally {
@@ -55,10 +54,10 @@ const createMenuTable = async () => {
       price bigint,
       imageurl varchar(255),
       menutitle varchar(255),
-      adminid bigint
+      userid bigint
     )`);
 
-    await client.query('INSERT INTO menus (description,price,imageurl,menutitle,adminid) VALUES ($1, $2, $3, $4, $5) RETURNING *', ['Iyan is made from pounding yam repeatedly with a club like cooking', 850, 'https://stackoverflow.com/questions/33023469/node-postgres-and-getting-joined-fields-with-repeated-names', 'Beans and Yam', 1]);
+    await client.query('INSERT INTO menus (description,price,imageurl,menutitle,userid) VALUES ($1, $2, $3, $4, $5) RETURNING *', ['Iyan is made from pounding yam repeatedly with a club like cooking', 850, 'https://res.cloudinary.com/daj3mflah/image/upload/v1538707203/emapkvg6whfgi0ge759w.jpg', 'Beans and Yam', 1]);
   } catch (error) {
     throw error;
   } finally {
@@ -66,25 +65,7 @@ const createMenuTable = async () => {
   }
 };
 
-const createAdminTable = async () => {
-  const client = await pool.connect();
-  try {
-    await client.query('DROP TABLE IF EXISTS admins CASCADE');
-
-    await client.query(`CREATE TABLE admins (
-      adminid SERIAL PRIMARY KEY,
-      username varchar(255),
-      email varchar(255),
-      password varchar(255)
-    )`);
-  } catch (error) {
-    throw error;
-  } finally {
-    client.end();
-  }
-};
 
 createUserTable();
 createOrderTable();
 createMenuTable();
-createAdminTable();

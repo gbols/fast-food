@@ -22,8 +22,6 @@ router.post('/auth/signup', _user.signUp);
 router.post('/orders', _user.verifyToken, _order.postOrder);
 router.post('/auth/login', _user.login);
 
-router.post('/auth/adminlogin', _admin.adminLogin);
-router.post('/auth/adminsignup', _admin.adminSignUp);
 router.post('/menu', _user.verifyToken, _admin.postMenu);
 router.get('/orders', _user.verifyToken, _admin.getAllOrders);
 router.put('/orders/:id', _user.verifyToken, _admin.updateOrderStatus);
