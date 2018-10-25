@@ -8,7 +8,7 @@ dotenv.config();
 if (process.env.NODE_ENV === 'test') {
   pool = new Pool(dbConfig.heroku);
 } else {
-  process.env.NODE_ENV = 'production';
+  process.env.NODE_ENV = 'localdevelopment';
   pool = new Pool(dbConfig.production);
 }
 
