@@ -30,7 +30,6 @@ describe('/SIGNUP', () => {
           .property('success')
           .eql(true);
         res.body.should.have.property('token');
-        res.body.should.have.property('details');
         done();
       });
   });
@@ -103,7 +102,6 @@ describe('/LOGIN', () => {
           .property('success')
           .eql(true);
         res.body.should.have.property('token');
-        res.body.should.have.property('details');
         done();
       });
   });
@@ -121,7 +119,7 @@ describe('/LOGIN', () => {
         res.should.have.status(401);
         res.body.should.have
           .property('message')
-          .eql('the password dooesnt match the supplied username!...');
+          .eql('Invalid username or password');
         res.body.should.have
           .property('success')
           .eql(false);
@@ -142,7 +140,7 @@ describe('/LOGIN', () => {
         res.should.have.status(404);
         res.body.should.have
           .property('message')
-          .eql('user with credentails doesnt exits in the database!....');
+          .eql('Invalid username or password');
         res.body.should.have
           .property('success')
           .eql(false);
@@ -188,162 +186,6 @@ describe('/SIGNOUT', () => {
   });
 });
 
-describe('/ADMIN SIGNUP', () => {
-  it('it should allow an admin signup with  valid credentials', (done) => {
-    const signup = {
-      username: 'tunde',
-      password: 'tunde@tunde',
-      email: 'tunde@tunde.com',
-    };
-    chai
-      .request(app)
-      .post('/api/v1/auth/adminsignup')
-      .send(signup)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.have
-          .property('message')
-          .eql('admin account successfully created!....');
-        res.body.should.have
-          .property('success')
-          .eql(true);
-        res.body.should.have.property('token');
-        res.body.should.have.property('details');
-        done();
-      });
-  });
-
-  it("it should'nt allow a admin signup with the same credentials twice", (done) => {
-    const signup = {
-      username: 'tunde',
-      password: 'tunde@tunde',
-      email: 'tunde@tunde.com',
-    };
-    chai
-      .request(app)
-      .post('/api/v1/auth/adminsignup')
-      .send(signup)
-      .end((err, res) => {
-        res.should.have.status(409);
-        res.body.should.have
-          .property('message')
-          .eql('admin with credentials already exits');
-        res.body.should.have
-          .property('success')
-          .eql(false);
-        done();
-      });
-  });
-
-
-  it("it should'nt allow improper input fileds", (done) => {
-    const signup = {
-      username: 'tunde',
-      password: '',
-      email: 'tunde@tunde.com',
-    };
-    chai
-      .request(app)
-      .post('/api/v1/auth/adminsignup')
-      .send(signup)
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have
-          .property('message');
-        res.body.should.have
-          .property('success')
-          .eql(false);
-        done();
-      });
-  });
-});
-
-describe('/ADMIN LOGIN', () => {
-  it('it should allow a user login with credentials', (done) => {
-    const log = {
-      username: 'tunde',
-      password: 'tunde@tunde',
-    };
-    chai
-      .request(app)
-      .post('/api/v1/auth/adminlogin')
-      .send(log)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.have
-          .property('message')
-          .eql('admin successfully logged In!....');
-        res.body.should.have
-          .property('success')
-          .eql(true);
-        res.body.should.have.property('token');
-        res.body.should.have.property('details');
-        done();
-      });
-  });
-
-  it("it should'nt allow an admin login with incorrect password", (done) => {
-    const log = {
-      username: 'tunde',
-      password: 'gbolhan',
-    };
-    chai
-      .request(app)
-      .post('/api/v1/auth/adminlogin')
-      .send(log)
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.should.have
-          .property('message')
-          .eql('the password dooesnt match the supplied username!...');
-        res.body.should.have
-          .property('success')
-          .eql(false);
-        done();
-      });
-  });
-
-  it("it should'nt allow an admin that doesnt exits to login", (done) => {
-    const log = {
-      username: 'dayork',
-      password: 'gbolhan',
-    };
-    chai
-      .request(app)
-      .post('/api/v1/auth/adminlogin')
-      .send(log)
-      .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have
-          .property('message')
-          .eql('admin with credentails doesnt exits in the database!....');
-        res.body.should.have
-          .property('success')
-          .eql(false);
-        done();
-      });
-  });
-
-  it("it should'nt allow improper input fileds", (done) => {
-    const log = {
-      username: '',
-      password: 'gbolhan',
-    };
-    chai
-      .request(app)
-      .post('/api/v1/auth/adminlogin')
-      .send(log)
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have
-          .property('message');
-        res.body.should.have
-          .property('success')
-          .eql(false);
-        done();
-      });
-  });
-});
 
 describe('/POST MENU', () => {
   it("it should'nt allow a user without token access this route", (done) => {
@@ -391,8 +233,8 @@ describe('/POST MENU', () => {
   });
 
   it('it should create a post with valid credentials', (done) => {
-    const admin = {
-      adminid: 1,
+    const user = {
+      userid: 5,
     };
     const menu = {
       menutitle: 'Yam and Egg',
@@ -403,7 +245,7 @@ describe('/POST MENU', () => {
     chai
       .request(app)
       .post('/api/v1/menu')
-      .set('Authorization', `Bearer ${Jwt.sign({ admin }, process.env.JWT_SECRET_ADMIN)}`)
+      .set('Authorization', `Bearer ${Jwt.sign({ user }, process.env.JWT_SECRET_ADMIN)}`)
       .send(menu)
       .end((err, res) => {
         res.should.have.status(200);
@@ -518,14 +360,12 @@ describe('/GET A SPECIFIC ORDER', () => {
 describe('/POST ORDER', () => {
   it("it should'nt allow a user without token access this route", (done) => {
     const order = {
-      description: 'Egg and Bread',
-      price: 800,
-      quantity: 5,
+      myOrders: [{ menuid: 3, quantity: 5 }, { menuid: 1, quantity: 8 }],
     };
     chai
       .request(app)
       .post('/api/v1/orders')
-      .send(order)
+      .send(JSON.stringify(order.myOrders))
       .end((err, res) => {
         res.should.have.status(403);
         res.body.should.have
@@ -540,14 +380,35 @@ describe('/POST ORDER', () => {
 
   it("it should'nt allow a invalid input fields", (done) => {
     const order = {
-      description: '',
-      price: 800,
-      quantity: 5,
+      myOrders: [{ menuid: 3, quantity: 5 }, { menuid: 1, quantity: 8 }],
     };
     chai
       .request(app)
       .post('/api/v1/orders')
       .set('Authorization', `Bearer ${Jwt.sign({ userid: 2 }, process.env.JWT_SECRET)}`)
+      .send(JSON.stringify(order.myOrders))
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have
+          .property('message');
+        res.body.should.have
+          .property('success')
+          .eql(false);
+        done();
+      });
+  });
+
+  it('it shouldn\'t create a post with invalid menuid', (done) => {
+    const user = {
+      userid: 2,
+    };
+    const order = {
+      myOrders: [{ menuid: 100, quantity: 5 }, { menuid: 1, quantity: 8 }],
+    };
+    chai
+      .request(app)
+      .post('/api/v1/orders')
+      .set('Authorization', `Bearer ${Jwt.sign({ user }, process.env.JWT_SECRET)}`)
       .send(order)
       .end((err, res) => {
         res.should.have.status(400);
@@ -565,9 +426,7 @@ describe('/POST ORDER', () => {
       userid: 2,
     };
     const order = {
-      description: 'Yam and Egg',
-      price: 800,
-      quantity: 5,
+      myOrders: [{ menuid: 1, quantity: 5 }, { menuid: 1, quantity: 8 }],
     };
     chai
       .request(app)
@@ -582,7 +441,7 @@ describe('/POST ORDER', () => {
           .property('success')
           .eql(true);
         res.body.should.have
-          .property('order');
+          .property('data');
         done();
       });
   });

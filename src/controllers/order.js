@@ -5,31 +5,38 @@ import pool from '../config/pool';
 
 
 dotenv.config();
+const checkValidOrder = async (orders) => {
+  const client = await pool.connect();
+  for (const order of orders) {
+    const { rows } = await client.query('SELECT * FROM menus WHERE menuid = $1', [order.menuid]);
+    if (!rows[0]) return order;
+  }
+  return 'valid';
+};
 
-/**
- * @param  {} req
- * @param  {} res
- * @returns {}
- */
 const postOrder = async (req, res) => {
-  const schema = {
+  const orderSchema = {
+    menuid: Joi.number().required(),
     quantity: Joi.number().required(),
-    description: Joi.string().required(),
-    price: Joi.number().required(),
   };
-  const { error } = Joi.validate(req.body, schema);
+  const ordersSchema = {
+    myOrders: Joi.array().min(1).items(Joi.object(orderSchema)).required(),
+  };
+  const { error, value: { myOrders } } = Joi.validate(req.body, ordersSchema);
   if (error) return res.status(400).send({ success: false, message: error.message });
   let decoded;
   try {
     decoded = Jwt.verify(req.token, process.env.JWT_SECRET);
   } catch (err) {
-    res.status(400).send({ success: false, message: err.message });
+    return res.status(400).send({ success: false, message: err.message });
   }
+  const result = await checkValidOrder(myOrders);
+  if (result !== 'valid') return res.status(400).send({ success: false, message: `the menuid of the given ${JSON.stringify(result)} order does not exit` });
   let client;
   try {
     client = await pool.connect();
-    const { rows } = await client.query('INSERT INTO orders (userid,quantity,description,price,orderat,status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [decoded.user.userid, req.body.quantity, req.body.description, req.body.price, Date.now(), 'new']);
-    res.status(200).send({ success: true, message: 'order was succesfully created', order: rows[0] });
+    const { rows } = await client.query('INSERT INTO orders (userid,orderat,status,info) VALUES ($1, $2, $3, $4) RETURNING *', [decoded.user.userid, Date.now(), 'new', JSON.stringify(myOrders)]);
+    res.status(200).send({ success: true, message: 'order was succesfully created', data: rows[0] });
   } catch (poolErr) {
     throw poolErr;
   } finally {
